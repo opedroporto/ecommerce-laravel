@@ -1,0 +1,41 @@
+.container {
+    /* border: 1px solid black; */
+    width: 100vw;
+    height: calc(90vh - var(--nav-height));
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    position: relative;
+}
+
+.container > * {
+    margin: 1rem;
+}
+
+.left-group {
+    display: flex;
+    justify-content: center;
+}
+
+#produto-img-wrapper {
+    max-width: 95%;
+    /* max-height: 100%; */
+    /* background-color: hsl(255, 45%, 15%); */
+}
+
+#produto-img {
+    width: 100%;
+    /* height: 100%; */
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+#comprar-btn {
+    background-color: orange;
+    padding: 1rem;
+    font-size: large;
+    border-radius: 0.25rem;
+}
+
+#comprar-btn:hover {
+    cursor: pointer;
+}

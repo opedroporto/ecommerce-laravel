@@ -1,0 +1,262 @@
+#login-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 400;
+    visibility: hidden; 
+}
+
+#login-popup-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login-img, #login-img2 {
+    width: 20rem;
+    object-fit: cover;
+    object-position: right;
+}
+
+#login-popup-box {
+    height: auto;
+    background-color: #5e548e;
+    /* min-height: 25rem; */
+    max-height: 90vh;
+    min-width: 30rem;
+    max-width: 60vw;
+    /* min-width: 300px;
+    max-width: 600px; */
+    /* border-radius: 1rem; */
+    padding: 1rem;
+    overflow-y: auto;
+    box-shadow: 0px 0px 50px 0px black;
+}
+
+#top-bar {
+    width: 100%;
+    height: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#close-btn {
+    font-size: 1.5rem;
+}
+
+#close-btn:hover {
+    cursor: pointer;
+}
+
+#login-popup-form, #signup-popup-form {
+    display: flex;
+    flex-direction: column;
+    /* height: calc(100% - 1.5rem); */
+}
+
+#login-popup-form > *, #signup-popup-form > * {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-flex-row {
+    display: flex;
+    flex-direction: row !important;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+.login-flex-row > *{
+    width: 100%;
+}
+
+
+#login-popup-form input, #signup-popup-form input {
+    font-size: 1.25rem;
+    width: 100%;
+    height: 2rem;
+    margin: .5rem 0 .5rem 0;
+    padding: .25rem;
+    color: white;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    /* border-radius: .25rem; */
+}
+
+#login-title {
+    text-align: center;
+    font-weight: bolder;
+    font-size: xx-large;
+    padding-bottom: 1.5rem;
+}
+
+.login-flash-msg {
+    text-align: center;
+    color: orange;
+    padding: 1rem;
+}
+
+#cpf_email-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#cpf_email {
+    width: 70%;
+    border-right: 0 !important;
+}
+
+#cpf_email-btn {
+    width: 40%;
+    height: 2rem;
+    background: #321555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* border-width: 1px 1px 1px 0;
+    border-style: solid;
+    border-color: #ccc; */
+}
+
+#cpf_email-btn:hover {
+    cursor: pointer;
+}
+
+#cpf_email-btn-text {
+    text-align: center;
+    color: white;
+}
+
+#login-bottom {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+#login-btn {
+    text-align: center;
+    /* height: 2.5rem; */
+    font-weight: bolder;
+    font-size: x-large;
+    margin: 1rem 0 1rem 0;
+    padding: 1rem 0 1rem 0;
+    background: linear-gradient(to right, #321555 0%,#2a1149 100%);
+    background-size: 400% 400%;
+    animation: login-btn-bg-gradient 4s ease-in-out alternate infinite;
+    color: white;
+    scale: 1;
+}
+@keyframes login-btn-bg-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+#login-btn:hover {
+    cursor: pointer;
+    animation: login-btn-hover .4s ease-out forwards;
+    transition-delay: 0.1s;
+}
+
+@keyframes login-btn-hover {
+    0% {
+    }
+
+    50%  {
+        scale: 0.90;
+        background: transparent;
+        outline: 1px solid white;
+        box-shadow: 0 0 5px 1px #2a1149;
+    }
+
+    100% {
+        scale: 1;
+        background: transparent;
+        outline: 1px solid white;
+        box-shadow: 0 0 5px 1px #2a1149;
+    }
+}
+
+.login-bottom-msg {
+    color: #e0c5ff;
+    text-align: right;
+    padding-right: 0.1rem;
+}
+
+#signup-btn, #signin-btn {
+    color: white;
+    font-weight: 600;
+    font-size: large;
+}
+
+#signup-btn:hover, #signin-btn:hover {
+    cursor: pointer;
+    color: #e0c5ff;
+    text-shadow: 0 0 1px white;
+}
+
+#signup-popup-form {
+    display: none;
+}
+
+.login-subtitle {
+    padding: 1rem 0 1rem 0;
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+}
+
+#cad_end_cep {
+    /* max-width: 8rem; */
+}
+
+#cad_end_num {
+    /* min-width: 2.5rem;
+    max-width: 5rem; */
+}
+
+#cad_end_uf {
+    text-transform: uppercase;
+    /* min-width: 2.5rem;
+    max-width: 3rem; */
+}
+
+@media (max-width: 1280px) {
+    #login-img, #login-img2 {
+        width: 20rem;
+    }   
+}
+
+@media (max-width: 960px) {
+    #login-img, #login-img2 {
+        width: 10rem;
+    }   
+}
+
+@media (max-width: 840px) {
+    #login-img, #login-img2 {
+        width: 0;
+    }   
+}
+
+@media (max-width: 720px) {
+    #login-popup-box {
+        min-width: 15rem;
+    }
+    #cpf_email-btn-text span {
+        display: none;
+    }
+    #login-popup-box {
+        max-width: 90vw;
+    }
+}
