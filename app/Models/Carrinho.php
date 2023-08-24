@@ -10,4 +10,8 @@ class Carrinho extends Model
     protected $guarded = [];
 
     use HasFactory;
+
+    public function usuario() {
+        $this->belongsTo("App\Models\User");
+    }
 }

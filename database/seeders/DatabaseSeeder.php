@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CarrinhoSeeder::class,
-            EnderecoSeeder::class,
+            // CarrinhoSeeder::class,
+            // EnderecoSeeder::class,
+            AdminUserSeeder::class,
+            UserSeeder::class,
             CategoriaSeeder::class,
             ProdutoSeeder::class,
         ]);

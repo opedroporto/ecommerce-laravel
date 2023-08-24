@@ -11,7 +11,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    
+    protected $table = "usuarios";
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -54,5 +56,11 @@ class User extends Authenticatable
         return $this->senha;
     }
 
-    protected $table = "usuarios";
+    public function enderecos() {
+        return $this->hasMany("App\Models\Endereco", "id_usuario");
+    }
+
+    public function carrinho() {
+        return $this->hasOne("App\Models\Carrinho", "id_usuario");
+    }
 }

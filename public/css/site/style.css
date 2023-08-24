@@ -10,6 +10,19 @@ body {
     margin-top: var(--nav-height);
 }
 
+input[type="date"].date {
+    background-color: var(--light-primary-color);
+    color: white;
+    padding: .4rem;
+    font-size: .9rem;
+}
+
+input[type="date"].date::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    border-radius: 0;
+}
+
 nav {
     background-color: rgba(0, 0, 0, 0.5);
     /* padding: .5rem; */

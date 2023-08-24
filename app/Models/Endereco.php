@@ -10,4 +10,8 @@ class Endereco extends Model
     protected $guarded = [];
 
     use HasFactory;
+
+    public function usuario() {
+        return $this->belongsTo("App\Models\User");
+    }
 }

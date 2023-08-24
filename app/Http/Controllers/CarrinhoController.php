@@ -43,8 +43,11 @@ class CarrinhoController extends Controller
     }
 
     public function finalizarcompra(Request $request) {
-        $enderecos = Endereco::where("id_usuario", auth()->user()->id)->get();
+        $items = CarrinhoCompras::getItems(); // items
+        $total = CarrinhoCompras::getTotal(); // total carrinho
+        $enderecos = Endereco::where("id_usuario", auth()->user()->id)->get(); // user addresses
+        $enderecos_retirada = Endereco::where("id_usuario", 1)->get(); // admin addresses
 
-        return view("site.finalizarcompra", compact("enderecos"));
+        return view("site.finalizarcompra", compact("items", "total", "enderecos", "enderecos_retirada"));
     }
 }

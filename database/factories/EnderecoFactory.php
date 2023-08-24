@@ -26,7 +26,7 @@ class EnderecoFactory extends Factory
             "complemento" => fake()->name(),
             "cep" => (string)fake()->randomNumber(8),
             "uf" => fake()->regexify("[A-Za-z]{2}"),
-            "id_usuario" => Models\User::pluck("id")->random()
+            // "id_usuario" => Models\User::pluck("id")->random()
         ];
     }
 }

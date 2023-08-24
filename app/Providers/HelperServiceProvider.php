@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\View\Composers\CarrinhoDataComposer;
 use Illuminate\Support\ServiceProvider;
 
-class ShareDataServiceProvider extends ServiceProvider
+class HelperServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -20,6 +19,10 @@ class ShareDataServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->composer("*", CarrinhoDataComposer::class);
+        $allHelperFiles = glob(app_path("Helpers") . "/*.php");
+
+        foreach($allHelperFiles as $key => $helperFile) {
+            require_once $helperFile;
+        }
     }
 }

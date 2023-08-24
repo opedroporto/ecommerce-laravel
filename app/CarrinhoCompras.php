@@ -84,7 +84,7 @@ class CarrinhoCompras {
     }
 
     public static function updateItem(int $id_produto, array $new_dados) {
-// user
+        // user
         if (auth()->user()) {
             $new_item = Item::where("id_produto", $id_produto)->update($new_dados);
         
@@ -127,6 +127,10 @@ class CarrinhoCompras {
         $itemsQuantity = count($items); // quantidade items
         
         return $itemsQuantity;
+    }
+
+    public static function clear() {
+        
     }
 }
 

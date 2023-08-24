@@ -1,5 +1,8 @@
 .container {
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #title {
@@ -8,8 +11,149 @@
     text-align: center;
 }
 
-.section-stage {
-    padding: 1rem;
+.stage-section {
     margin: 1rem 0 1rem 0;
-    outline: 1px solid pink;
+    outline: 1px solid var(--light-primary-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: grayscale(1);
+}
+
+.stage-returnable {
+    cursor: pointer;
+    filter: unset;
+}
+
+.stage-active {
+    filter: unset;
+}
+
+.stage-title {
+    font-size: larger;
+    font-weight: bold;
+    padding: 1rem;
+    text-align: center;
+}
+
+.stage-fieldset, .stage-content {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.stage-fieldset input, .stage-fieldset label {
+    cursor: pointer;
+}
+
+.stage-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.stage-innercontent {
+    padding: 0 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-secondary-innercontent {
+    display: hidden;
+}
+
+/* 
+.stage-fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
+
+
+section:not(.stage-active) .stage-content {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.stage-fieldset > * {
+    margin: .5rem;
+}
+
+.stage-btn {
+    color: white;
+    padding: .5rem;
+    /* border-radius: .25rem; */
+    font-size: medium;
+    text-align: center;
+    width: 100%;
+}
+
+.stage-btn:not(:disabled) {
+    background: var(--light-primary-color);
+}
+
+.stage-btn:not(:disabled):hover {
+    cursor: pointer;
+}
+
+.stage-btn:disabled:hover {
+    cursor: auto;
+}
+
+#stage-details {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    cursor: auto;
+}
+.stage-details-item {
+    display: flex;
+    align-items: center;
+    margin: .25rem 0 .25rem .5rem;
+}
+
+.satage-details-item-img {
+    width: 3rem;
+    margin: 0 .5rem 0 0;
+}
+
+.light-text {
+    color: #ccc;
+    font-size: small;
+}
+
+#observacao {
+    width: 100%;
+    resize: none;
+    border: 1px solid var(--light-primary-color);
+    padding: .25rem;
+}
+
+#obs-div {
+    padding-top: .5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+}
+
+#finalizar-btn {
+    background: orange;
+    color: white;
+    padding: 1rem;
+    margin: 1rem;
+    font-size: large;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+#finalizar-btn {
+    cursor: pointer;
 }
