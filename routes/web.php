@@ -35,12 +35,13 @@ Route::group([
 
     Route::get("/carrinho", [Controllers\CarrinhoController::class, "lista"])->name("carrinho");
     Route::post("/carrinho", [Controllers\CarrinhoController::class, "add"])->name("addcarrinho");
-    Route::get("/finalizarcompra", [Controllers\CarrinhoController::class, "finalizarcompra"])->name("finalizarcompra")->middleware("authuser");
+    Route::get("/finalizarcompra", [Controllers\CarrinhoController::class, "proceedToCheckout"])->name("finalizarcompra")->middleware("authuser");
     
     Route::post("/addpedido", [Controllers\PedidoController::class, "store"])->name("addpedido")->middleware("authuser");
+    Route::get("/pedidos", [Controllers\PedidoController::class, "index"])->name("getpedidos")->middleware("authuser");
 
-    Route::post("/checkout", [Controllers\StripeController::class, "checkout"])->name("checkout");
-    Route::get("/success", [Controllers\StripeController::class, "success"])->name("success");
+    Route::post("/finalizarpedido", [Controllers\StripeController::class, "checkout"])->name("checkout");
+    Route::get("/sucesso", [Controllers\StripeController::class, "success"])->name("success");
 });
 
 // Login
@@ -51,4 +52,13 @@ Route::group([
     Route::post("/login", [Controllers\LoginController::class, "login"])->name("login"); 
     Route::get("/logout", [Controllers\LoginController::class, "logout"])->name("logout"); 
     Route::post("/cadastro", [Controllers\LoginController::class, "signup"])->name("signup"); 
+});
+
+// API
+Route::group([
+    "prefix" => "",
+    "as" => "api."
+], function() {
+    Route::post("/dataentrega", [Controllers\ApiController::class, "getShippingDate"])->name("getshippingdate");
+    Route::post("/dataretirada", [Controllers\ApiController::class, "getWithdrawalDate"])->name("getwithdrawaldate");
 });

@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pedido;
+use App\CarrinhoCompras;
+use App\Models\Endereco;
+use App\Models\Forma_de_pagamento;
 use App\Models\Item;
+use App\Models\Pedido;
+
+use App\Http\Requests\StorePedidoRequest;
+
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -13,7 +19,9 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        //
+        $pedidos = Pedido::where("id_usuario", auth()->user()->id)->get()->all();
+
+        return view("site.pedidos", compact("pedidos"));
     }
 
     /**
@@ -27,30 +35,39 @@ class PedidoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePedidoRequest $request)
     {
+        $data = $request->validated();
+
+        if ($data['forma'] == "entrega") {
+            $date = session()->get("shipping_date");
+            $id_endereco = Endereco::whereId($data['endereco_entrega'])->where("id_usuario", auth()->user()->id)->get()->first()->id;
+        } else if($data['forma'] == "retirada") {
+            $date = $data['date'];
+            $id_endereco = Endereco::whereId($data['endereco_retirada'])->where("id_usuario", auth()->user()->id)->get()->first()->id;
+        }
+        $id_forma_de_pagamento = Forma_de_pagamento::where("alias", $data["pagamento"])->get()->first()->id;
 
         $pedido_data = [
-            "valor" => \Cart::getTotal(),
+            "valor" => CarrinhoCompras::getTotal(),
+            "data" => $date,
+            "entrega" => $data['forma'] == "entrega",
+            "retirada" => $data['forma'] == "retirada",
+            "observacao" => $data['obs'],
+            "id_forma_de_pagamento" => $id_forma_de_pagamento,
+            "id_endereco" => $id_endereco,
             "id_usuario" => auth()->user()->id
         ];
 
-        $pedido = Pedido::create($pedido_data);
+        $id_pedido = Pedido::create($pedido_data)->id;
 
-        $items = \Cart::getContent();
-        $new_items = [];
-        foreach ($items as $item) {
-            $item_data = [
-                "id_pedido" => $pedido->id,
-                "nome" => $item->name,
-                "valor" => $item->price,
-                "quantidade" => $item->quantity,
-                "id_produto" => $item->id
-            ];
-            $new_items[] = Item::create($item_data);
-        }
+        $id_carrinho = CarrinhoCompras::getId();
 
-        \Cart::clear();
+        // cart -> order
+        Item::where("id_carrinho", $id_carrinho)->update([
+            'id_carrinho' => null,
+            'id_pedido' => $id_pedido
+        ]);
 
         return redirect()->route("site.index");
     }

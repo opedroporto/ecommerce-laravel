@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
@@ -23,27 +24,41 @@ class LoginController extends Controller
         } else {
             $field_type = "cpf";
         }
-        
-        $credenciais = $request->validated();
 
+        // validate
+        if (isset($request->validator) && $request->validator->fails()) {
+            // return response()->json($request->validator->messages(), 400);
+            return redirect()->back()->withErrors($request->validator, "login")->withInput();
+        }
+        $credenciais = $request->validated();
+        
+
+        // login
+    
         $cpf_email = $credenciais[$field_type];
         $senha = $credenciais['senha'];
-
         if(Auth::attempt([$field_type => $cpf_email, "password" => $senha], $request->remember)) {
+            // success
             $request->session()->regenerate();
-
-            // Carrinho::savetodatabase();
-
             return redirect()->back();
         } else {;
-            return redirect()->back()->with("erro", "E-mail ou senha inválida.");
+            // error
+            return redirect()->back()->withErrors(["E-mail ou senha inválida."], "login")->withInput();
+            // return redirect()->back()->with("erro", "E-mail ou senha inválida.");
         }
 
     }
 
     public function signup(SignupRequest $request) {
 
+        // validate
+        if (isset($request->validator) && $request->validator->fails()) {
+            // return response()->json($request->validator->messages(), 400);
+            return redirect()->back()->withErrors($request->validator, "signup")->withInput();
+        }
         $data = $request->validated();
+
+        // sign up
 
         $user_data = [
             "nome" => $data["nome"],

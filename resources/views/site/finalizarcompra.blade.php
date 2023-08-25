@@ -10,8 +10,10 @@
 
 <div class="container">
     <form action="{{ route("site.addpedido") }}" method="POST">
+        @csrf
 
         <h1 id="title">Finalize seu pedido:</h1>
+        {{ $errors }}
         
         <section class="stage-section stage-active">
             <p class="stage-title">Forma de recebimento:</p>
@@ -39,7 +41,7 @@
                     <fieldset class="stage-fieldset" data-tipo="entrega">
                         @foreach ($enderecos as $endereco)
                             <div>
-                                <input id="endereco" type="radio" value="end{{ $endereco->id }}" name="group1">
+                                <input id="endereco" type="radio" value="{{ $endereco->id }}" name="endereco_entrega">
                                 <label for="endereco">
                                     {{ format_endereco($endereco) }}
                                 </label>
@@ -52,7 +54,7 @@
                     <fieldset class="stage-fieldset" data-tipo="retirada">
                         @foreach ($enderecos_retirada as $endereco_retirada)
                             <div>
-                                <input id="endereco_retirada" type="radio" value="end{{ $endereco_retirada->id }}" name="endereco_retirada">
+                                <input id="endereco_retirada" type="radio" value="{{ $endereco_retirada->id }}" name="endereco_retirada">
                                 <label for="endereco_retirada">
                                     {{ format_endereco($endereco_retirada) }}
                                 </label>
@@ -68,7 +70,7 @@
             <p class="stage-title">Data:</p>
             <div class="stage-content">
                 <div class="stage-innercontent" data-tipo="retirada">
-                    <input id="date" class="date" type="date">
+                    <input id="date" class="date" type="date" name="date" required>
                 </div>
                 <button class="stage-btn" type="button" disabled>Confirmar data acima</button>
             </div>
@@ -80,19 +82,19 @@
                 <div class="stage-innercontent">
                     <fieldset class="stage-fieldset">
                         <div>
-                            <input id="pix" type="radio" value="pix" name="group2">
+                            <input id="pix" type="radio" value="pix" name="pagamento">
                             <label for="pix">Pix</label>
                         </div>
                         <div>
-                            <input id="cc" type="radio" value="pix" name="group2">
-                            <label for="cc">Cartão de crédito</label>
+                            <input id="cc" type="radio" value="pix" name="pagamento">
+                            <label for="cc">Cartão de Crédito</label>
                         </div>
                         <div>
-                            <input id="cd" type="radio" value="pix" name="group2">
-                            <label for="cd">Cartão de débito</label>
+                            <input id="cd" type="radio" value="pix" name="pagamento">
+                            <label for="cd">Cartão de Débito</label>
                         </div>
                         <div>
-                            <input id="boleto" type="radio" value="pix" name="group2">
+                            <input id="boleto" type="radio" value="pix" name="pagamento">
                             <label for="boleto">Boleto</label>
                         </div>
                     </fieldset>
@@ -112,11 +114,11 @@
                         @foreach ($items as $item)
                         <div class="stage-details-item">
                             <img class="satage-details-item-img" src="{{ $item['produto']['img'] }}">
-                            <p>{{ $item['nome'] }} <span class="light-text">Preço: R${{ number_format($item['valor'], 2, ",", ".") }} ({{ $item['quantidade'] }} x R${{ number_format($item['produto']['valor'], 2, ",", ".") }})</span></p>
+                            <p>{{ $item['nome'] }} <span class="light-text">Preço: R$ {{ number_format($item['valor'], 2, ",", ".") }} ({{ $item['quantidade'] }} x R$ {{ number_format($item['produto']['valor'], 2, ",", ".") }})</span></p>
                         </div>
                         @endforeach
 
-                        <p id="stage-details-total">Total: R$ {{ number_format($total, 2, ",", ".") }}</p>
+                        <p id="stage-details-total">Total: <span class="light-text">R$ {{ number_format($total, 2, ",", ".") }}</span></p>
                     </div>
                     <div id="obs-div">
                         <label for="observacao">Observação:</label>
@@ -135,12 +137,13 @@
 
 @push("scripts")
     <script>
-        $("#date").attr("min", new Date().toISOString().split("T")[0]);
+        setWithdrawlDateLimit();
 
         var pedido = {};
         var unlocked_stage = 0;
         var active_stage = 0;
         var active_stage_section_el = $(".stage-section")[active_stage];
+        var new_date;
 
         function activateStage() {
             
@@ -173,14 +176,18 @@
                 if (i <= unlocked_stage) {
                     $(stage_sections[i]).addClass("stage-returnable");
                 } else {
-                    $(stage_sections[i]).removeClass("stage-returnable");
-                    $($(stage_sections[i]).find(".stage-btn")[0]).prop('disabled', true);
-                    $(stage_sections[i]).find("input, textarea").each(function() {
-                        $(this).val("");
-                    });
-                    $(stage_sections[i]).find("input[type=radio]").each(function() {
-                        $(this).prop('checked', false);
-                    });
+                    if (new_date && $(stage_sections[i]).find("input[type=date]")) {
+
+                    } else {
+                        $(stage_sections[i]).removeClass("stage-returnable");
+                        $($(stage_sections[i]).find(".stage-btn")[0]).prop('disabled', true);
+                        $(stage_sections[i]).find("input:not([type=radio]), textarea").each(function() {
+                            $(this).val("");
+                        });
+                        $(stage_sections[i]).find("input[type=radio]").each(function() {
+                            $(this).prop('checked', false);
+                        });
+                    }
                 }
             }
         }
@@ -209,8 +216,13 @@
                 }
             }
 
+            
             active_stage = clicked_index + 1;
             activateStage(active_stage);
+
+            if (checkFilled(active_stage)) {
+                $($(active_stage_section_el).find(".stage-btn")[0]).prop('disabled', false);
+            }
 
             buildPedido(clicked_index);
 
@@ -273,10 +285,10 @@
                     let pagamento = pagamento_label.text().trim();
                     pedido['pagamento'] = pagamento;
                     let pedido_text =
-                    `<p>Forma: ${pedido['forma']}</p>
-                    <p>Endereço: ${pedido['end']}</p>
-                    <p>Data da entrega: ${pedido['date']}</p>
-                    <p>Método de pagamento: ${pedido['pagamento']}</p>`;
+                    `<p>Forma: <span class="light-text">${pedido['forma']}</span></p>
+                    <p>Endereço: <span class="light-text">${pedido['end']}</span></p>
+                    <p>Data estimada de entrega: <span class="light-text">${pedido['date']}</span></p>
+                    <p>Método de pagamento: <span class="light-text">${pedido['pagamento']}</span></p>`;
 
                     let stage_details = $($(".stage-section")[4]).find("#stage-details")[0];
                     let stage_details_pedido = $("#stage-details-pedido");
@@ -313,10 +325,14 @@
 
                                 third_section_title.text("Data da retirada");
                                 $($(third_section).find("input[type='date']")[0]).val("");
+                                $($(third_section).find("input[type='date']")[0]).prop("disabled", false);
 
                                 $($(second_section).find("*[data-tipo='entrega']")[0]).find("input").each(function() {
                                     $(this).prop("checked", false);
                                 });
+
+                                new_date = null;
+                                
                                 unlocked_stage = 0;
                                 checkUnlockedStages();
                             } else {
@@ -324,8 +340,10 @@
                                 primary_innercontent.show();
                                 secondary_innercontent.hide();
 
-                                third_section_title.text("Data da entrega");
+                                third_section_title.text("Data estimada da entrega");
                                 $($(third_section).find("input[type='date']")[0]).val("");
+
+                                setNewDate();
 
                                 $($(second_section).find("*[data-tipo='retirada']")[0]).find("input").each(function() {
                                     $(this).prop("checked", false);
@@ -344,6 +362,7 @@
                             checked = true;
                         }
                     })
+
                     break;
 
                 case 2:
@@ -351,6 +370,7 @@
                     if ($(date_input).val()) {
                         checked = true;
                     }
+
                     break;
 
                 case 3:
@@ -367,6 +387,35 @@
                 }
 
             return checked ? true : false;
+        }
+
+        async function setNewDate() {
+            let response = await fetch("{{ route("api.getshippingdate") }}", {
+                "method": "POST",
+                headers: {
+                    "X-CSRF-Token": "{{ csrf_token() }}",
+                }
+            });
+            new_date = await response.text();
+
+            let third_section = $(".stage-section")[2];
+            $($(third_section).find("input[type='date']")[0]).val(new_date);
+            $($(third_section).find("input[type='date']")[0]).prop("disabled", true);
+            
+            $($(third_section).find(".stage-btn")[0]).prop('disabled', false);
+        }
+
+        async function setWithdrawlDateLimit() {
+            let response = await fetch("{{ route("api.getwithdrawaldate") }}", {
+                "method": "POST",
+                headers: {
+                    "X-CSRF-Token": "{{ csrf_token() }}",
+                }
+            });
+            shipping_date_limit = await response.text();
+
+            // $("#date").attr("min", new Date().toISOString().split("T")[0]);
+            $("#date").attr("min", shipping_date_limit);
         }
     </script>
 @endpush

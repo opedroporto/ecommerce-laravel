@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->string("num", 5);
-            $table->string("rua", 50);
-            $table->string("bairro", 50);
-            $table->string("cidade", 50);
-            $table->string("complemento", 50)->nullable();
+            $table->string("rua", 255);
+            $table->string("bairro", 255);
+            $table->string("cidade", 255);
+            $table->string("complemento", 255)->nullable();
             $table->string("cep", 9);
             $table->string("uf", 2);
 

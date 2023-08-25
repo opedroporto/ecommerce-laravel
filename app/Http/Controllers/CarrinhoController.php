@@ -42,7 +42,7 @@ class CarrinhoController extends Controller
         return redirect()->route("site.carrinho")->with("sucesso", "Produto adicionado ao carrinho!");
     }
 
-    public function finalizarcompra(Request $request) {
+    public function proceedToCheckout(Request $request) {
         $items = CarrinhoCompras::getItems(); // items
         $total = CarrinhoCompras::getTotal(); // total carrinho
         $enderecos = Endereco::where("id_usuario", auth()->user()->id)->get(); // user addresses

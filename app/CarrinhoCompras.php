@@ -130,7 +130,24 @@ class CarrinhoCompras {
     }
 
     public static function clear() {
-        
+        // user
+        if (auth()->user()) {
+            $items = self::getItems();
+            foreach ($items as $item) {
+                Item::find($item->id)->delete();
+            }
+        // guest
+        } else {
+            session()->put("carrinho", "");
+        }
+    }
+
+    public static function getId() {
+        if (auth()->user()) {
+            $id_carrinho = Carrinho::where("id_usuario", auth()->user()->id)->first()->id;
+            return $id_carrinho;
+        }
+        // return false;
     }
 }
 

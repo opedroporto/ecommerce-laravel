@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('formas_de_pagamento', function (Blueprint $table) {
             $table->id();
 
-            $table->boolean("boleto")->default(false);
-            $table->boolean("cartao_credito")->default(false);
-            $table->boolean("cartao_debito")->default(false);
-            $table->boolean("pix")->default(false);
+            $table->text("alias");
+            $table->text("nome");
 
-            $table->timestamps();
+            // $table->boolean("boleto")->default(false);
+            // $table->boolean("cartao_credito")->default(false);
+            // $table->boolean("cartao_debito")->default(false);
+            // $table->boolean("pix")->default(false);
+
+            // $table->timestamps();
         });
     }
 

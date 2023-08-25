@@ -29,8 +29,10 @@ class UserFactory extends Factory
             // "senha" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
             "senha" => bcrypt("12345678"),
             "remember_token" => Str::random(10),
-            "cpf" => fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "-" . fake()->randomNumber(2),
-            "tel" => "(" . fake()->randomNumber(2) . ")" .  " " . fake()->randomNumber(5) . "-" . fake()->randomNumber(4),
+            // "cpf" => fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "-" . fake()->randomNumber(2),
+            "cpf" => fake()->numerify("###-###-###.##"),
+            // "tel" => "(" . fake()->randomNumber(2) . ")" .  " " . fake()->randomNumber(5) . "-" . fake()->randomNumber(4),
+            "tel" => fake()->numerify("(##) #####-####"),
             "dtnasc" => fake()->date()
         ];
     }

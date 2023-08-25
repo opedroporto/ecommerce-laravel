@@ -7,8 +7,8 @@
         <title>@yield("title") | Fran Decorações</title>
 
         <link rel="icon" type="image/x-icon" href="{{ asset("favicon.ico") }}">
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link rel="stylesheet" href="{{ asset("css/fontawesome/css/all.min.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/reset.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/variables.css") }}" /> 
         <link rel="stylesheet" href="{{ asset("css/site/style.css") }}" />
@@ -40,8 +40,9 @@
                         </li>
                         @auth
                         <div class="dropdown">
-                            <span>Olá, {{ Str::limit(auth()->user()->nome, 25) }}</span>
+                            <button class="dropbtn">Olá, {{ Str::limit(auth()->user()->nome, 15) }}</button>
                             <div class="dropdown-content">
+                                <a href="{{ route("site.getpedidos") }}" id="logout-btn">Pedidos <i class="fa-solid fa-boxes-stacked"></i></a>
                                 <a href="{{ route("login.logout") }}" id="logout-btn">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
                             </div>
                         </div>
@@ -63,7 +64,7 @@
     </body>
 
     {{-- Jquery --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset("js/jquery/jquery.js") }}"></script>
 
     {{-- All page scripts --}}
     <script src="{{ asset("js/site/script.js") }}"></script>

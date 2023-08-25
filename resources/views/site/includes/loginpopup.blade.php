@@ -2,8 +2,8 @@
 
 <div id="login-popup">
     <div id="login-popup-wrapper">
-        <img id="login-img" src="https://capricho.abril.com.br/wp-content/uploads/2016/07/02210.jpg?quality=70&strip=all">
-        <img id="login-img2" src="https://img.elo7.com.br/product/main/3E9AC85/kit-arco-desconstruido-princesinha-roxo-e-rosa-baloes-festa-roxa-15-anos.jpg">
+        {{-- <img id="login-img" src="https://capricho.abril.com.br/wp-content/uploads/2016/07/02210.jpg?quality=70&strip=all">
+        <img id="login-img2" src="https://img.elo7.com.br/product/main/3E9AC85/kit-arco-desconstruido-princesinha-roxo-e-rosa-baloes-festa-roxa-15-anos.jpg"> --}}
         <div id="login-popup-box">
             <div id="top-bar">
                 <i id="close-btn" class="fa-solid fa-xmark"></i>
@@ -14,18 +14,30 @@
                 @if ($msg = Session::get("login_msg"))
                     <p class="login-flash-msg">{{ $msg }}</p>
                 @endif
+                {{-- @if ($errors->login->any())
+                    <div class="error-msg">
+                        <ul>
+                            @foreach ($errors->login->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
                 <div>
                     <label id="cpf_email-lbl">E-mail:</label>
                     <div id="cpf_email-input-wrapper">
-                        <input id="cpf_email" type="email" name="email" required>
+                        <input id="cpf_email" class="{{ ($errors->login->first('cpf') || $errors->login->first("email") ? " input-error" : "") }}" type="email" name="email" required>
                         <button id="cpf_email-btn"  type="button">
                             <p id="cpf_email-btn-text">Logar com CPF</p>
                         </button>
                     </div>
+                    <p class="error-msg">{{ $errors->login->first('cpf') ? $errors->login->first('cpf') : "" }}</p>
+                    <p class="error-msg">{{ $errors->login->first('email') ? $errors->login->first('email') : "" }}</p>
                 </div>
                 <div>
                     <label>Senha:</label>
-                    <input type="password" name="senha" required>
+                    <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" required>
+                    <p class="error-msg">{{ $errors->login->first('senha') ? $errors->login->first('senha') : "" }}</p>
                 </div>
 
                 <div id="login-bottom">
@@ -36,71 +48,93 @@
             <form id="signup-popup-form" action="{{ route("login.signup") }}" method="POST">
                 @csrf
                 <h1 id="login-title">Cadastro</h1>
+                {{-- @if ($errors->signup->any())
+                    <div class="error-msg">
+                        <ul>
+                            @foreach ($errors->signup->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
                 <div>
                     <label>Nome:</label>
-                    <input type="text" name="nome" required>
+                    <input class="{{ ($errors->signup->first('nome') ? "input-error" : "") }}" type="text" name="nome" value="{{ old('nome') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('nome') ? $errors->signup->first('nome') : "" }}</p>
                 </div>
 
                 <div>
                     <label>Sobrenome:</label>
-                    <input type="text" name="sobrenome" required>
+                    <input class="{{ ($errors->signup->first('sobrenome') ? "input-error" : "") }}" type="text" name="sobrenome" value="{{ old('sobrenome') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('sobrenome') ? $errors->signup->first('sobrenome') : "" }}</p>
                 </div>
 
                 <div>
                     <label>Data de nascimento:</label>
-                    <input type="date" name="datanasc" required>
+                    <input class="{{ ($errors->signup->first('datanasc') ? "input-error" : "") }}" type="date" name="datanasc" value="{{ old('datanasc') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('datanasc') ? $errors->signup->first('datanasc') : "" }}</p>
                 </div>
                 
                 <div>
                     <label>Telefone:</label>
-                    <input id="cad_tel" type="text" name="telefone" required>
+                    <input id="cad_tel" class="{{ ($errors->signup->first('telefone') ? "input-error" : "") }}" type="text" name="telefone" value="{{ old('telefone') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('telefone') ? $errors->signup->first('telefone') : "" }}</p>
                 </div>
 
                 <div>
                     <label>CPF:</label>
-                    <input id="cad_cpf" type="text" name="cpf" required>
+                    <input id="cad_cpf" class="{{ ($errors->signup->first('cpf') ? "input-error" : "") }}" type="text" name="cpf" value="{{ old('cpf') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('cpf') ? $errors->signup->first('cpf') : "" }}</p>
                 </div>
 
                 <div>
                     <label>E-mail:</label>
-                    <input type="email" name="email" required>
+                    <input class="{{ ($errors->signup->first('email') ? "input-error" : "") }}" type="email" name="email" value="{{ old('email') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('email') ? $errors->signup->first('email') : "" }}</p>
                 </div>
                 
                 <div>
                     <label>Senha:</label>
-                    <input type="password" name="senha" required>
+                    <input class="{{ ($errors->signup->first('senha') ? "input-error" : "") }}" type="password" name="senha"  minlength="8" maxlength="255" required>
+                    <p class="error-msg">{{ $errors->signup->first('senha') ? $errors->signup->first('senha') : "" }}</p>
                 </div>
 
                 <p class="login-subtitle">Endereço</p>
 
                 <div>
                     <label>CEP:</label>
-                    <input id="cad_end_cep" type="text" name="end_cep" required>
+                    <input id="cad_end_cep" class="{{ ($errors->signup->first('end_cep') ? "input-error" : "") }}" type="text" name="end_cep" value="{{ old('end_cep') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('end_cep') ? $errors->signup->first('end_cep') : "" }}</p>
                 </div>
 
                 <div class="login-flex-row">
                     <div>
                         <label>Rua:</label>
-                        <input id="cad_end_rua" type="text" name="end_rua" maxlength="50" required>
+                        <input id="cad_end_rua" class="{{ ($errors->signup->first('end_rua') ? "input-error" : "") }}" type="text" name="end_rua" maxlength="50" value="{{ old('end_rua') }}" required>
+                        <p class="error-msg">{{ $errors->signup->first('end_rua') ? $errors->signup->first('end_rua') : "" }}</p>
                     </div>
                     <div style="width: 30%;">
                         <label>Número:</label><br>
-                        <input id="cad_end_num" type="text" name="end_num" maxlength="5" required>
+                        <input id="cad_end_num" class="{{ ($errors->signup->first('end_num') ? "input-error" : "") }}" type="text" name="end_num" maxlength="5" value="{{ old('end_num') }}" required>
+                        <p class="error-msg">{{ $errors->signup->first('end_num') ? $errors->signup->first('end_num') : "" }}</p>
                     </div>
                 </div>
 
                 <div>
                     <label>Bairro:</label>
-                    <input id="cad_end_bairro" type="text" name="end_bairro" maxlength="50" required>
+                    <input id="cad_end_bairro" class="{{ ($errors->signup->first('end_bairro') ? "input-error" : "") }}" type="text" name="end_bairro" maxlength="50" value="{{ old('end_bairro') }}" required>
+                    <p class="error-msg">{{ $errors->signup->first('end_bairro') ? $errors->signup->first('end_bairro') : "" }}</p>
                 </div>
                 <div class="login-flex-row">
                     <div>
                         <label>Cidade:</label>
-                        <input id="cad_end_cidade" type="text" name="end_cidade" maxlength="50" required>
+                        <input id="cad_end_cidade" class="{{ ($errors->signup->first('end_cidade') ? "input-error" : "") }}" type="text" name="end_cidade" maxlength="50" value="{{ old('end_cidade') }}" required>
+                        <p class="error-msg">{{ $errors->signup->first('end_cidade') ? $errors->signup->first('end_cidade') : "" }}</p>
                     </div>
                     <div style="width: 30%;">
-                        <label>UF:</label><br>
-                        <input id="cad_end_uf" list="uf-list" maxlength="2" name="end_uf" required>
+                          <label>UF:</label><br>
+                        <input id="cad_end_uf" class="{{ ($errors->signup->first('end_uf') ? "input-error" : "") }}" list="uf-list" maxlength="2" name="end_uf" value="{{ old('end_uf') }}" required>
+                        <p class="error-msg">{{ $errors->signup->first('end_uf') ? $errors->signup->first('end_uf') : "" }}</p>
                         <datalist id="uf-list">
                             <option value="">Selecione</option>
                             <option value="AC">AC (Acre)</option>
@@ -135,7 +169,8 @@
                 </div>
                 <div>
                     <label>Complemento:</label>
-                    <input id="cad_end_complemento" type="text" name="end_complemento">
+                    <input id="cad_end_complemento" class="{{ ($errors->signup->first('end_complemento') ? "input-error" : "") }}" type="text" name="end_complemento" value="{{ old('complemento') }}">
+                    <p class="error-msg">{{ $errors->signup->first('end_complemento') ? $errors->signup->first('end_complemento') : "" }}</p>
                 </div>
 
                 <div id="login-bottom">
@@ -149,8 +184,19 @@
 
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js" integrity="sha512-efAcjYoYT0sXxQRtxGY37CKYmqsFVOIwMApaEbrxJr4RwqVVGw8o+Lfh/+59TU07+suZn1BWq4fDl5fdgyCNkw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset("js/jquery/jquery.inputmask.min.js") }}"></script>
 <script>
+        @if (Session::get("login_needed"))
+                loginPopupShow();
+        @endif
+
+        @if ($errors->login->any())
+            loginPopupShow();
+        @elseif ($errors->signup->any())
+            loginPopupShow();
+            goToSignup();
+        @endif
+
         $(document).ready(function() {
             checkWrapBtnText();
 
@@ -161,10 +207,6 @@
             $("#cad_tel").inputmask("(99) 99999-9999");
 
             $("#cad_end_cep").inputmask("99999-999");
-
-            @if (Session::get("login_needed"))
-                loginPopupShow();
-            @endif
         });
 
         $(window).resize(function() {
@@ -232,12 +274,16 @@
         function loginPopupShow() {
             $("#login-img").show();
             $("#login-img2").hide();
+            $("#login-img2").show();
+            $("#login-img").hide();
+            $("#login-popup").css("visibility","visible");
             $("#login-popup").css("visibility","visible");
             $('html, body').css({
                 overflow: 'hidden',
                 height: '100%'
             });
         }
+
         function loginPopupClose() {
             $("#login-popup").css("visibility","hidden");
             $('html, body').css({
@@ -258,12 +304,16 @@
             }
         });
 
-        $("#signup-btn").click(() => {
+        function goToSignup() {
             $("#login-popup-form").hide();
             $("#signup-popup-form").show();
             $("#login-img2").height($("#login-popup-box").outerHeight());
             $("#login-img2").show();
             $("#login-img").hide();
+        }
+
+        $("#signup-btn").click(() => {
+            goToSignup();
         })
 
         $("#signin-btn").click(() => {

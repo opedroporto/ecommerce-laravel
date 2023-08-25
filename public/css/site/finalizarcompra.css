@@ -125,7 +125,7 @@ section:not(.stage-active) .stage-content {
 
 .light-text {
     color: #ccc;
-    font-size: small;
+    font-size: .85rem;
 }
 
 #observacao {
