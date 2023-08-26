@@ -13,7 +13,6 @@
         @csrf
 
         <h1 id="title">Finalize seu pedido:</h1>
-        {{ $errors }}
         
         <section class="stage-section stage-active">
             <p class="stage-title">Forma de recebimento:</p>
