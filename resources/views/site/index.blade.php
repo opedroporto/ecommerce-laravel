@@ -40,7 +40,26 @@
     </div>
 </div>
 <div id="main">
-    <section id="produtos">
+    @if (isset($colecoes))
+    <section id="itens">
+        <h2>Coleções:</h2>
+        <div id="produtos-grid">
+            @foreach ($colecoes as $colecao)
+                <a href="{{ route("site.vercolecao", [$colecao->id, $colecao->slug]) }}">
+                    <div class="card">
+                        <div class="card-img-wrapper">
+                            <img class="card-img" src="{{ $colecao->img }}" />
+                        </div>
+                        <p class="card-title">{{ $colecao->nome }}</p> <br>
+                        {{-- <p class="card-subtitle">R$ {{ number_format($produto->valor, 2, ",", ".") }}</p> <br> --}}
+                        <p>{{ Str::limit($colecao->descricao, 150) }}</p>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </section>
+    @elseif(isset($produtos))
+    <section id="itens">
         <h2>Produtos:</h2>
         <div id="produtos-grid">
             @foreach ($produtos as $produto)    
@@ -51,28 +70,27 @@
                         </div>
                         <p class="card-title">{{ $produto->nome }}</p> <br>
                         <p class="card-subtitle">R$ {{ number_format($produto->valor, 2, ",", ".") }}</p> <br>
-                        <p>{{ Str::limit($produto->descricao, 255) }}</p>
+                        <p>{{ Str::limit($produto->descricao, 150) }}</p>
                     </div>
                 </a>
             @endforeach
-            <!-- <div class="card">
-                <div class="card-img-wrapper">
-                    <img class="card-img" src="./carros.jpg"></img>
-                    <p class="card-title">Festa de aniversário</p>
-                </div>
-            </div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div> -->
         </div>
     </section>
+    @endif
 </div>
 
 @endsection
 
 @push('scripts')
     <script src="{{ asset("js/site/index.js") }}"></script>
+
+    <script>
+        $("#comprar-btn").click(() => {
+            $(location).attr('href', "{{ route("site.index", []) }}");
+        });
+
+        $("#criar-btn").click(() => {
+            $(location).attr('href', "{{ route("site.index", ["modo" => "criar"]) }}");
+        });
+    </script>
 @endpush

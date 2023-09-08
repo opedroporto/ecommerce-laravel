@@ -106,6 +106,10 @@ section:not(.stage-active) .stage-content {
     cursor: auto;
 }
 
+#tax {
+    display: none;
+}
+
 #stage-details {
     display: flex;
     flex-direction: column;

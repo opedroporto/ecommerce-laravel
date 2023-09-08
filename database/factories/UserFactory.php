@@ -22,6 +22,7 @@ class UserFactory extends Factory
         // $cpf = (string)fake()->randomNumber(11)->unique();
 
         return [
+            "role" => 0,
             "nome" => fake()->name(),
             "sobrenome" => fake()->name(),
             "email" => fake()->unique()->safeEmail(),

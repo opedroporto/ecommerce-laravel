@@ -14,4 +14,7 @@ class Item extends Model
     public function produto() {
         return $this->belongsTo('App\Models\Produto', "id_produto");
     }
+    public function colecao() {
+        return $this->belongsTo('App\Models\Colecao', "id_produto");
+    }
 }

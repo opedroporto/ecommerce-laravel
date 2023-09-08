@@ -44,12 +44,11 @@ class PedidoController extends Controller
             $id_endereco = Endereco::whereId($data['endereco_entrega'])->where("id_usuario", auth()->user()->id)->get()->first()->id;
         } else if($data['forma'] == "retirada") {
             $date = $data['date'];
-            $id_endereco = Endereco::whereId($data['endereco_retirada'])->where("id_usuario", auth()->user()->id)->get()->first()->id;
+            $id_endereco = Endereco::whereId($data['endereco_retirada'])->where("id_usuario", 1)->get()->first()->id;
         }
         $id_forma_de_pagamento = Forma_de_pagamento::where("alias", $data["pagamento"])->get()->first()->id;
 
         $pedido_data = [
-            "valor" => CarrinhoCompras::getTotal(),
             "data" => $date,
             "entrega" => $data['forma'] == "entrega",
             "retirada" => $data['forma'] == "retirada",
@@ -58,6 +57,13 @@ class PedidoController extends Controller
             "id_endereco" => $id_endereco,
             "id_usuario" => auth()->user()->id
         ];
+
+        if ($data['forma'] == "entrega") {
+            $pedido_data['valor'] = CarrinhoCompras::getTotal() * CarrinhoCompras::getAdditional();
+        } else {
+            $pedido_data['valor'] = CarrinhoCompras::getTotal();
+        }
+
 
         $id_pedido = Pedido::create($pedido_data)->id;
 
@@ -69,7 +75,9 @@ class PedidoController extends Controller
             'id_pedido' => $id_pedido
         ]);
 
-        return redirect()->route("site.index");
+        return redirect()->route("site.checkout", ["id" => $id_pedido]);
+
+        // return redirect()->route("site.index");
     }
 
     /**

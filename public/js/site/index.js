@@ -1,6 +1,10 @@
-$("#comprar-btn").click(() => {
-    $(location).attr('href', "#produtos");
-});
+// $("#comprar-btn").click(() => {
+//     $(location).attr('href', "/");
+// });
+
+// $("#comprar-btn").click(() => {
+//     $(location).attr('href', "#produtos");
+// });
 
 // var rect = document.getElementById("columns").getBoundingClientRect();
 // console.log(rect.top, rect.right, rect.bottom, rect.left);

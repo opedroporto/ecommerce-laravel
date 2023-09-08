@@ -20,8 +20,6 @@ return new class extends Migration
             $table->float("valor", 8, 2);
             $table->string("slug", 50);
             $table->unsignedInteger("quantidade");
-            $table->boolean("finalizado")->default(false);
-            $table->boolean("pago")->default(false);
 
             $table->unsignedBigInteger("id_categoria");
             $table->foreign('id_categoria')->references('id')->on('categorias');

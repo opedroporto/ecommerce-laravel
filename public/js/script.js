@@ -1,4 +1,14 @@
-$(document).scroll(function() {
+checkNav();
+
+$(document).ready(() => {
+    checkNav();
+});
+
+$(document).scroll(() => {
+    checkNav();
+});
+
+function checkNav() {
     if($(window).scrollTop() === 0) {
         $(".logoWrapper").addClass("toRight");
         $(".logoWrapper").removeClass("toLeft");
@@ -10,4 +20,4 @@ $(document).scroll(function() {
         $("nav").addClass("not-top");
         $("nav").removeClass("top");
     }
-});
+};

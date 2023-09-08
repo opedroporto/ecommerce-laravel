@@ -40,6 +40,9 @@ class LoginController extends Controller
         if(Auth::attempt([$field_type => $cpf_email, "password" => $senha], $request->remember)) {
             // success
             $request->session()->regenerate();
+            if (auth()->user()->role == "1") {
+                return route("admin.index");
+            }
             return redirect()->back();
         } else {;
             // error

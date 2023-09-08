@@ -22,6 +22,13 @@
 
         @stack("styles")
 
+        
+
+        {{-- Includes --}}
+        @include("site.includes.loginpopup")
+
+    </head>
+    <body>
         <nav class="top">
             <ul>
                 <div id="left-nav">
@@ -53,12 +60,6 @@
             </ul>
         </nav>
 
-        {{-- Includes --}}
-        @include("site.includes.loginpopup")
-
-    </head>
-    <body>
-
         @yield('content')
     
     </body>
@@ -67,7 +68,7 @@
     <script src="{{ asset("js/jquery/jquery.js") }}"></script>
 
     {{-- All page scripts --}}
-    <script src="{{ asset("js/site/script.js") }}"></script>
+    <script src="{{ asset("js/script.js") }}"></script>
 
     {{-- Specific page scripts --}}
     @stack('scripts')

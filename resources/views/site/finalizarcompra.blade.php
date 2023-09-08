@@ -18,10 +18,10 @@
             <p class="stage-title">Forma de recebimento:</p>
             <div class="stage-content">
                 <div class="stage-innercontent">
-                    <fieldset class="stage-fieldset">
+                    <fieldset class="stage-fieldset" disabled>
                         <div>
                             <input id="entrega" type="radio" value="entrega" data-tipo="entrega" name="forma">
-                            <label for="entrega">Entrega</label>
+                            <label for="entrega">Entrega + montagem</label>
                         </div>
                         <div>
                             <input id="retirada" type="radio" value="retirada" data-tipo="retirada" name="forma">
@@ -66,10 +66,13 @@
         </section>
 
         <section class="stage-section">
-            <p class="stage-title">Data:</p>
+            <p class="stage-title">Informações:</p>
             <div class="stage-content">
                 <div class="stage-innercontent" data-tipo="retirada">
                     <input id="date" class="date" type="date" name="date" required>
+                    <div id="tax">
+                        <p id="tax-text"></p>
+                    </div>
                 </div>
                 <button class="stage-btn" type="button" disabled>Confirmar data acima</button>
             </div>
@@ -116,8 +119,9 @@
                             <p>{{ $item['nome'] }} <span class="light-text">Preço: R$ {{ number_format($item['valor'], 2, ",", ".") }} ({{ $item['quantidade'] }} x R$ {{ number_format($item['produto']['valor'], 2, ",", ".") }})</span></p>
                         </div>
                         @endforeach
+                        <p id="stage-details-add">Adicional de montagem: <span class="light-text">R$ {{ number_format($adicional_montagem, 2, ",", ".") }}</span></p>
 
-                        <p id="stage-details-total">Total: <span class="light-text">R$ {{ number_format($total, 2, ",", ".") }}</span></p>
+                        <p id="stage-details-total">Total: <span class="light-text">R$ {{ number_format($total + $adicional_montagem, 2, ",", ".") }}</span></p>
                     </div>
                     <div id="obs-div">
                         <label for="observacao">Observação:</label>
@@ -136,6 +140,11 @@
 
 @push("scripts")
     <script>
+        $(document).ready(() => {
+            let first_fieldset = $($($(".stage-section")[0]).find(".stage-fieldset"))[0];        
+            $(first_fieldset).prop("disabled", false);
+        })
+
         setWithdrawlDateLimit();
 
         var pedido = {};
@@ -143,6 +152,7 @@
         var active_stage = 0;
         var active_stage_section_el = $(".stage-section")[active_stage];
         var new_date;
+
 
         function activateStage() {
             
@@ -322,13 +332,18 @@
                                 primary_innercontent.hide();
                                 secondary_innercontent.show();
 
-                                third_section_title.text("Data da retirada");
+                                third_section_title.text("Informações da retirada:");
                                 $($(third_section).find("input[type='date']")[0]).val("");
                                 $($(third_section).find("input[type='date']")[0]).prop("disabled", false);
 
                                 $($(second_section).find("*[data-tipo='entrega']")[0]).find("input").each(function() {
                                     $(this).prop("checked", false);
                                 });
+
+                                $($(third_section).find("#tax")[0]).hide();
+
+                                $("#stage-details-add").hide();
+                                $("#stage-details-total").find(".light-text").text("R$ {{ number_format($total, 2, ",", ".") }}");
 
                                 new_date = null;
                                 
@@ -339,7 +354,7 @@
                                 primary_innercontent.show();
                                 secondary_innercontent.hide();
 
-                                third_section_title.text("Data estimada da entrega");
+                                third_section_title.text("informações da entrega:");
                                 $($(third_section).find("input[type='date']")[0]).val("");
 
                                 setNewDate();
@@ -347,6 +362,14 @@
                                 $($(second_section).find("*[data-tipo='retirada']")[0]).find("input").each(function() {
                                     $(this).prop("checked", false);
                                 });
+
+                                setNewTax();
+
+                                $($(third_section).find("#tax")[0]).show();
+
+                                $("#stage-details-total").find(".light-text").text("R$ {{ number_format($total + $adicional_montagem, 2, ",", ".") }}");
+                                $("#stage-details-add").show();
+
                                 unlocked_stage = 0;
                                 checkUnlockedStages();
                             }
@@ -377,7 +400,7 @@
                     $(radio_inputs).each(function () {
                         if ($(this).is(':checked')) {
                             checked = true;
-                        }
+                        } 
                     })
                     break;
                         
@@ -386,6 +409,21 @@
                 }
 
             return checked ? true : false;
+        }
+
+        async function setNewTax() {
+            $($(third_section).find("#tax-text")[0]).text("Frete: calculando...");
+
+            let response = await fetch("{{ route("api.getshippingtax") }}", {
+                "method": "POST",
+                headers: {
+                    "X-CSRF-Token": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify({"id_end": $("#endereco").val() })
+            });
+            new_tax = await response.text();
+
+            $($(third_section).find("#tax-text")[0]).text("Frete: " + new_tax);
         }
 
         async function setNewDate() {

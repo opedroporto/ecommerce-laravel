@@ -18,6 +18,7 @@ class AdminUserSeeder extends Seeder
     {
         DB::table("usuarios")->insert([
             "id" => 1,
+            "role" => 1,
             "nome" => "Fran",
             "sobrenome" => "Decorações",
             "email" => "fran@gmail.com",

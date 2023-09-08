@@ -44,6 +44,10 @@
     padding-left: 5vw;
 }
 
+#buttons-left-group {
+    padding-bottom: 1rem;
+}
+
 #buttons-left-group * {
     padding: 1vw;
     border: 0;
@@ -93,6 +97,10 @@
     cursor: pointer;
 }
 
+#itens {
+    padding-top: 1rem;
+}
+
 #produtos-grid {
     padding-top: 1rem;
     display: grid;
@@ -138,7 +146,7 @@
 
 @media (max-width: 800px) {
     #container {
-        grid-template-rows: auto 200px;
+        /* grid-template-rows: auto 200px; */
     }
     #columns {
         max-height: 62vw;
@@ -148,10 +156,11 @@
     }
     #buttons-left-group * {
         border-radius: 1.5vw;
-        padding: 2vw;
+        /* padding: 2vw; */
         font-size: 4vw;
     }
     #right-group {
+        display: none;
         padding: 0;
     }
     #main-img {

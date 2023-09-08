@@ -24,7 +24,7 @@ class ProdutoFactory extends Factory
             "nome" => $nome,
             "descricao" => fake()->paragraph(),
             "img" => fake()->imageUrl(400, 400),
-            "valor" => fake()->randomNumber(2),
+            "valor" => fake()->randomNumber(2) + 1,
             "slug" => Str::slug($nome),
             "quantidade" => fake()->randomNumber(1),
             "id_categoria" => Models\Categoria::pluck("id")->random()

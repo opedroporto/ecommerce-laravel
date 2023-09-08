@@ -10,9 +10,11 @@ class CarrinhoDataComposer {
         //
     }
     public function compose(View $view) {
-        
-        $quantidadeItemsCarrinho = CarrinhoCompras::getItemsQuantity();
-
-        $view->with(compact("quantidadeItemsCarrinho"));
+        // guest or not admin (normal user)
+        if (auth()->guest() || auth()->user()->role != 1) {
+            $quantidadeItemsCarrinho = CarrinhoCompras::getItemsQuantity();
+    
+            $view->with(compact("quantidadeItemsCarrinho"));
+        }
     }
 }

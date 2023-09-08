@@ -12,7 +12,9 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        
+        $produtos = Produto::with("categoria")->get()->all();
+
+        return view("admin.produtos.index", compact("produtos"));
     }
 
     /**
@@ -28,7 +30,15 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // GET
+        if($request->isMethod("get")){
+            return view("admin.produtos.add");
+        }
+        // POST
+        if($request->isMethod("post")){
+            // validate data
+            // store new produto
+        }
     }
 
     /**

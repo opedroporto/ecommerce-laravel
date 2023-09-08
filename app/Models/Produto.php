@@ -10,6 +10,10 @@ class Produto extends Model
     use HasFactory;
 
     public function items() {
-        return $this->hasMany('App\Models\Item');
+        return $this->hasMany("App\Models\Item");
+    }
+
+    public function categoria() {
+        return $this->belongsTo("App\Models\Categoria", "id_categoria");
     }
 }

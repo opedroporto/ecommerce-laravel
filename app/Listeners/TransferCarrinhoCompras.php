@@ -25,6 +25,7 @@ class TransferCarrinhoCompras
     {
         $items = CarrinhoCompras::getItems(asGuest: true);
         foreach ($items as $item) {
+            unset($item['id']);
             CarrinhoCompras::setItem($item);
         }
     }

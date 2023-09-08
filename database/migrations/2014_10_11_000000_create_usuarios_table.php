@@ -23,6 +23,7 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
 
+            $table->integer('role')->default('0');
             $table->string('nome');
             $table->string('sobrenome');
             $table->string('email')->unique();

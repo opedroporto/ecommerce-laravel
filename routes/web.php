@@ -18,11 +18,19 @@ use App\Http\Controllers;
 // Admin
 Route::group([
     "prefix" => "admin",
-    "as" => "admin."
+    "as" => "admin.",
+    "middleware" => "authadmin"
 ], function() {
-    Route::get("/", function() {
-        return view("admin.index");
-    })->name("index");
+    // index
+    Route::get("/", [Controllers\AdminController::class, "index"])->name("index");
+
+    // produto
+    Route::group([
+        "as" => "produtos."
+    ], function() {
+        Route::get("/produtos", [Controllers\ProdutoController::class, "index"])->name("index");
+        Route::match(["get", "post"], "/produto/adicionar", [Controllers\ProdutoController::class, "store"])->name("add");
+    });
 });
 
 // Site
@@ -30,17 +38,27 @@ Route::group([
     "prefix" => "",
     "as" => "site."
 ], function() {
+    // index
     Route::get("/", [Controllers\SiteController::class, "index"])->name("index");
+
+    // produto
     Route::get("/produto/{id}/{slug}", [Controllers\ProdutoController::class, "show"])->name("verproduto");
 
+    // colecao
+    Route::get("/colecao/{id}/{slug}", [Controllers\ColecaoController::class, "show"])->name("vercolecao");
+
+    // carrinho
     Route::get("/carrinho", [Controllers\CarrinhoController::class, "lista"])->name("carrinho");
     Route::post("/carrinho", [Controllers\CarrinhoController::class, "add"])->name("addcarrinho");
+    Route::post("/editaritem", [Controllers\CarrinhoController::class, "edit"])->name("edititem");
+    Route::post("/deletaritem", [Controllers\CarrinhoController::class, "delete"])->name("deleteitem");
+
     Route::get("/finalizarcompra", [Controllers\CarrinhoController::class, "proceedToCheckout"])->name("finalizarcompra")->middleware("authuser");
     
     Route::post("/addpedido", [Controllers\PedidoController::class, "store"])->name("addpedido")->middleware("authuser");
     Route::get("/pedidos", [Controllers\PedidoController::class, "index"])->name("getpedidos")->middleware("authuser");
-
-    Route::post("/finalizarpedido", [Controllers\StripeController::class, "checkout"])->name("checkout");
+    Route::get("/finalizarpedido", [Controllers\StripeController::class, "checkout"])->name("checkout")->middleware("authuser");
+    
     Route::get("/sucesso", [Controllers\StripeController::class, "success"])->name("success");
 });
 
@@ -61,4 +79,13 @@ Route::group([
 ], function() {
     Route::post("/dataentrega", [Controllers\ApiController::class, "getShippingDate"])->name("getshippingdate");
     Route::post("/dataretirada", [Controllers\ApiController::class, "getWithdrawalDate"])->name("getwithdrawaldate");
+    Route::post("/frete", [Controllers\ApiController::class, "getShippingTax"])->name("getshippingtax");
+});
+
+// Webhook
+Route::group([
+    "prefix" => "",
+    "as" => "webhook."
+], function() {
+    Route::post("/", [Controllers\StripeController::class, "webhook"])->name("receive");
 });

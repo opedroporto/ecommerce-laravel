@@ -20,6 +20,9 @@ return new class extends Migration
             $table->boolean("retirada")->default(false);
             $table->text("observacao")->nullable();
 
+            $table->boolean("finalizado")->default(false);
+            $table->boolean("pago")->default(false);
+
             $table->unsignedBigInteger("id_forma_de_pagamento");
             $table->foreign('id_forma_de_pagamento')->references('id')->on('formas_de_pagamento');
 

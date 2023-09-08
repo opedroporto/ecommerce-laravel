@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger("id_carrinho")->nullable();
             $table->foreign('id_carrinho')->references('id')->on('carrinhos');
 
+            $table->text("tipo");
+
             $table->text("nome");
 
             $table->float("valor", 8, 2);
