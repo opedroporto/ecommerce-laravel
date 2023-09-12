@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger("id_colecao")->nullable();
-            $table->foreign('id_colecao')->references('id')->on('colecoes');
+            $table->foreign('id_colecao')->references('id')->on('colecoes')->onUpdate("cascade")->onDelete("cascade");
 
             $table->unsignedBigInteger("id_produto")->nullable();
-            $table->foreign('id_produto')->references('id')->on('produtos');
+            $table->foreign('id_produto')->references('id')->on('produtos')->onUpdate("cascade")->onDelete("cascade");
 
             $table->integer("quantidade");
 

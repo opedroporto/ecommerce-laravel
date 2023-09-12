@@ -41,12 +41,12 @@ class LoginController extends Controller
             // success
             $request->session()->regenerate();
             if (auth()->user()->role == "1") {
-                return route("admin.index");
+                return redirect()->route("admin.index");
             }
             return redirect()->back();
         } else {;
             // error
-            return redirect()->back()->withErrors(["E-mail ou senha inválida."], "login")->withInput();
+            return redirect()->back()->withErrors(["invalid" => "E-mail ou senha inválida."], "login")->withInput();
             // return redirect()->back()->with("erro", "E-mail ou senha inválida.");
         }
 

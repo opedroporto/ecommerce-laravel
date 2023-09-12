@@ -23,10 +23,35 @@
                         </ul>
                     </div>
                 @endif --}}
+                @if ($errors->login->first("invalid"))
+                    <div class="error-msg">
+                        <ul>
+                            <li>{{ $errors->login->first("invalid") }}</li>
+                        </ul>
+                    </div>
+                @endif
                 <div>
                     <label id="cpf_email-lbl">E-mail:</label>
                     <div id="cpf_email-input-wrapper">
-                        <input id="cpf_email" class="{{ ($errors->login->first('cpf') || $errors->login->first("email") ? " input-error" : "") }}" type="email" name="email" required>
+                        {{-- @if (old("cpf"))
+                            {{ $old_cpf_email = old("cpf") }}
+                        @elseif(old("email"))
+                            {{ $old_cpf_email = old("email") }}
+                        @else
+                            {{ $old_cpf_email = "" }}
+                        @endif --}}
+                        @php
+                            if (old("cpf")) {
+                                $old_cpf_email = old("cpf");
+                            }
+                            elseif(old("email")) {
+                                $old_cpf_email = old("email");
+                            }
+                            else {
+                                $old_cpf_email = "";
+                            }
+                        @endphp
+                        <input id="cpf_email" class="{{ ($errors->login->first('cpf') || $errors->login->first("email") ? " input-error" : "") }}" type="email" name="email" value="{{ $old_cpf_email }}" required>
                         <button id="cpf_email-btn"  type="button">
                             <p id="cpf_email-btn-text">Logar com CPF</p>
                         </button>
@@ -36,7 +61,7 @@
                 </div>
                 <div>
                     <label>Senha:</label>
-                    <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" required>
+                    <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" value="{{ old("senha") }}" required>
                     <p class="error-msg">{{ $errors->login->first('senha') ? $errors->login->first('senha') : "" }}</p>
                 </div>
 

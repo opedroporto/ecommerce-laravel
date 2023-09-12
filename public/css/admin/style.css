@@ -10,6 +10,40 @@ body {
     margin-top: var(--nav-height);
 }
 
+.container {
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.disabled {
+    pointer-events: none;
+    /* filter: grayscale(.5); */
+}
+
+input[type="number"].nospinbox::-webkit-outer-spin-button,
+input[type="number"].nospinbox::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"].nospinbox {
+    -moz-appearance: textfield;
+}
+
 input[type="date"].date {
     background-color: var(--light-primary-color);
     color: white;
@@ -97,6 +131,10 @@ nav ul div * {
     left: 56px;
     width: 56px;
     height: 56px;
+}
+
+.logoWrapper > a {
+    padding: 0;
 }
 
 .logo {

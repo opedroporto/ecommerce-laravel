@@ -34,7 +34,7 @@
                     <div class="dropdown">
                         <button class="dropbtn">Olá, {{ Str::limit(auth()->user()->nome, 15) }}</button>
                         <div class="dropdown-content">
-                            <a href="{{ route("login.logout") }}" id="logout-btn">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                            {{-- <a href="{{ route("login.logout") }}" id="logout-btn">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></a> --}}
                         </div>
                     </div>
                 </div>

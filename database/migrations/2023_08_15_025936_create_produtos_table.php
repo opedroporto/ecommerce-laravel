@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedInteger("quantidade");
 
             $table->unsignedBigInteger("id_categoria");
-            $table->foreign('id_categoria')->references('id')->on('categorias');
+            $table->foreign('id_categoria')->references('id')->on('categorias')->onUpdate("restrict")->onDelete("restrict");
 
             $table->timestamps();
         });
