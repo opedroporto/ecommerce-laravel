@@ -72,7 +72,8 @@
 
 <div id="buy-btn-wrapper">
     <h2 id="buy-text">Seu carrinho está vazio.</h2>
-    <a id="buy-btn" href="{{ url()->previous() }}">Conhecer produtos</a>
+    {{-- <a id="buy-btn" href="{{ url()->previous() }}">Conhecer produtos</a> --}}
+    <a id="buy-btn" href="{{ url()->route("site.index") }}">Conhecer produtos</a>
 </div>
 
 @endif

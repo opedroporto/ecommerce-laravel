@@ -1,5 +1,11 @@
 <?php
 
+use \Carbon\Carbon;
+
+use Illuminate\Support\Facades\Http;
+
+use App\Models\Endereco;
+
 function mask($val, $mask)
 {
     $masked = '';
@@ -28,4 +34,65 @@ function format_endereco($endereco) {
 
 function format_cep($cep) {
 
+}
+
+function getShippingTax($data) {
+    // origem
+    $endereco = Endereco::whereId(1)->get()->first();
+    $origem_end = urlencode(format_endereco($endereco));
+    $origem_end = "18075300";
+    
+    // destino
+    $endereco = Endereco::whereId($data['id_end'])->get()->first();
+    $destino_end = urlencode(format_endereco($endereco));
+    $destino_end = "18076300";
+    
+    // call api
+    $uri = "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" . $destino_end . "&origins=" . $origem_end . "&key=" . env('GOOGLE_MAPS_API_KEY');
+    $response_row = Http::get($uri)['rows'];
+
+    try {
+        $distance = $response_row[0]['elements'][0]['distance']['value'];
+        $duration = $response_row[0]['elements'][0]['duration']['value'];
+
+        // calculate shipping tax
+        $distance_km = $distance / 1000;
+        $shipping_tax = $distance_km * 5;
+
+        return $shipping_tax;
+        session()->put("shipping_tax" . $data->secret_token, $shipping_tax);
+        session()->save();
+
+        // return "R$ " . number_format($shipping_tax, 2, ",", ".");
+    } catch (\Exception $e) {
+        // default fallback shipping tax
+        $shipping_tax = 50;
+
+        return $shipping_tax;
+        session()->put("shipping_tax" . $data->secret_token, $shipping_tax);
+        session()->save();
+
+    }
+}
+
+function getWithdrawalDate($data) {
+    $date = Carbon::now()->addDays(3)->format("Y-m-d");
+    return $date;
+    
+    session()->put("min_withdrawal_date" . $data->secret_token, $date);
+    session()->save();
+
+    return session()->get("min_withdrawal_date" . $data->secret_token);
+    // return $date;
+}
+
+function getShippingDate($data) {
+    $date = Carbon::now()->addDays(7)->format("Y-m-d");
+    return $date;
+
+    session()->put("shipping_date" . $data->secret_token, $date);
+    session()->save();
+
+    return session()->get("shipping_date" . $data->secret_token);
+    // return $date;
 }

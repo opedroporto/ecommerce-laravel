@@ -1,24 +1,28 @@
 @extends("site.layout")
 
-@section("title", "Home")
+@section("title", "Pedidos")
 
 @push('styles')
-    
+    <link rel="stylesheet" href="{{ asset("css/site/pedidos.css") }}">
 @endpush
-    <link rel="stylesheet" href="{{ asset("css/site/index.css") }}">
+
 @section("content")
 
-@foreach ($pedidos as $pedido)
-    {{-- <form action="{{ route("site.checkout") }}" method="POST">
-        @csrf
-        {{ $pedido }}
-        <input name="id" type="hidden" value="{{ $pedido->id }}"> 
-        <button type="submit">Comprar</button>
-    </form> --}}
-
-    {{ $pedido }}
-    <a href="{{ route("site.checkout", ["id" => $pedido->id]) }}">Comprar</a>
-@endforeach
+<div class="pedidos">
+    @foreach ($pedidos as $pedido)
+        <div class="pedido">
+            <form action="{{ route("site.checkout") }}" method="GET">
+                @csrf
+                {{ $pedido }}
+                <input name="id" type="hidden" value="{{ $pedido->id }}"> 
+                <button type="submit">Comprar</button>
+            </form>
+        
+            {{-- {{ $pedido }} --}}
+            {{-- <a href="{{ $pedido->uri_pagamento }}">Comprar</a> --}}
+        </div>
+    @endforeach
+</div>
 
 @endsection
 

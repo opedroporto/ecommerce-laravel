@@ -12,6 +12,6 @@ class Carrinho extends Model
     use HasFactory;
 
     public function usuario() {
-        $this->belongsTo("App\Models\User");
+        $this->belongsTo(App\Models\Usuario);
     }
 }

@@ -107,7 +107,17 @@ section:not(.stage-active) .stage-content {
 }
 
 #tax {
-    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: .75rem;
+}
+
+#tax-text {
+    padding: .5rem;
+    margin: .2rem;
+    font-size: 1rem;
+    background: var(--light-primary-color);
 }
 
 #stage-details {
@@ -116,10 +126,15 @@ section:not(.stage-active) .stage-content {
     align-items: left;
     cursor: auto;
 }
+
 .stage-details-item {
     display: flex;
     align-items: center;
     margin: .25rem 0 .25rem .5rem;
+}
+
+#stage-details-tax {
+    display: none;
 }
 
 .satage-details-item-img {

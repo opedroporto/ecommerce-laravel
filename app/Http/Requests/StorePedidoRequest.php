@@ -29,6 +29,7 @@ class StorePedidoRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'secret_token' => ["required", "min:20", "max:20"],
             'forma' => ["required", "regex:/^(entrega)|(retirada)$/"],
             'pagamento' => ["required", "regex:/^(pix)|(cc)|(cd)|(boleto)$/"],
             'obs' => "nullable|min:1|max:255",

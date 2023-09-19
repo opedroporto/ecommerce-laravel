@@ -18,7 +18,11 @@ return new class extends Migration
             $table->timestamp("data");
             $table->boolean("entrega")->default(false);
             $table->boolean("retirada")->default(false);
+            $table->float("taxa_entrega", 8, 2)->nullable();
+
             $table->text("observacao")->nullable();
+
+            $table->longText("uri_pagamento")->nullable();
 
             $table->boolean("finalizado")->default(false);
             $table->boolean("pago")->default(false);

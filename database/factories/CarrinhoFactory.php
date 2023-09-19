@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\User;
+use App\Models\Usuario;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Carrinho>
@@ -19,7 +19,7 @@ class CarrinhoFactory extends Factory
     public function definition(): array
     {
         return [
-            "id_usuario" => User::factory()->create()->id,
+            // "id_usuario" => Usuario:factory()->create()->id,
         ];
     }
 }

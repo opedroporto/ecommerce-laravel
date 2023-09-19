@@ -13,8 +13,8 @@ body {
 input[type="date"].date {
     background-color: var(--light-primary-color);
     color: white;
-    padding: .4rem;
-    font-size: .9rem;
+    padding: .5rem;
+    font-size: 1rem;
 }
 
 input[type="date"].date::-webkit-calendar-picker-indicator {

@@ -12,6 +12,8 @@
     <form action="{{ route("site.addpedido") }}" method="POST">
         @csrf
 
+        <input id="secret_token" type="hidden" value="{{ Str::random(20) }}" name="secret_token">
+
         <h1 id="title">Finalize seu pedido:</h1>
         
         <section class="stage-section stage-active">
@@ -69,9 +71,11 @@
             <p class="stage-title">Informações:</p>
             <div class="stage-content">
                 <div class="stage-innercontent" data-tipo="retirada">
-                    <input id="date" class="date" type="date" name="date" required>
+                    <div>
+                        Data: <input id="date" class="date" type="date" name="date" required>
+                    </div>
                     <div id="tax">
-                        <p id="tax-text"></p>
+                        <p> Frete: </p> <div id="tax-text"></div>
                     </div>
                 </div>
                 <button class="stage-btn" type="button" disabled>Confirmar data acima</button>
@@ -121,7 +125,8 @@
                         @endforeach
                         <p id="stage-details-add">Adicional de montagem: <span class="light-text">R$ {{ number_format($adicional_montagem, 2, ",", ".") }}</span></p>
 
-                        <p id="stage-details-total">Total: <span class="light-text">R$ {{ number_format($total + $adicional_montagem, 2, ",", ".") }}</span></p>
+                        <p id="stage-details-tax">Taxa de entrega: <span id="stage-details-tax-text" class="light-text"></span></p>
+                        <p id="stage-details-total">Total: <span id="stage-details-total-text" class="light-text"></span></p>
                     </div>
                     <div id="obs-div">
                         <label for="observacao">Observação:</label>
@@ -341,9 +346,10 @@
                                 });
 
                                 $($(third_section).find("#tax")[0]).hide();
+                                $("#stage-details-tax").hide();
 
                                 $("#stage-details-add").hide();
-                                $("#stage-details-total").find(".light-text").text("R$ {{ number_format($total, 2, ",", ".") }}");
+                                $("#stage-details-total").find("#stage-details-total-text").text("R$ {{ number_format($total, 2, ",", ".") }}");
 
                                 new_date = null;
                                 
@@ -364,11 +370,7 @@
                                 });
 
                                 setNewTax();
-
-                                $($(third_section).find("#tax")[0]).show();
-
-                                $("#stage-details-total").find(".light-text").text("R$ {{ number_format($total + $adicional_montagem, 2, ",", ".") }}");
-                                $("#stage-details-add").show();
+                                
 
                                 unlocked_stage = 0;
                                 checkUnlockedStages();
@@ -412,18 +414,34 @@
         }
 
         async function setNewTax() {
-            $($(third_section).find("#tax-text")[0]).text("Frete: calculando...");
+            const formatNumber = new Intl.NumberFormat()
+
+            $($(third_section).find("#tax-text")[0]).text("calculando...");
 
             let response = await fetch("{{ route("api.getshippingtax") }}", {
                 "method": "POST",
                 headers: {
                     "X-CSRF-Token": "{{ csrf_token() }}",
                 },
-                body: JSON.stringify({"id_end": $("#endereco").val() })
+                body: JSON.stringify({
+                    "secret_token": $("#secret_token").val(),
+                    "id_end": $("#endereco").val()
+                })
             });
-            new_tax = await response.text();
+            let new_tax = await response.text();
+            new_tax = parseFloat(new_tax);
 
-            $($(third_section).find("#tax-text")[0]).text("Frete: " + new_tax);
+            let total = {{ $total + $adicional_montagem }};
+            
+            $($(third_section).find("#tax-text")[0]).text("R$ " + number_format(new_tax, 2, ",", "."));
+
+            $("#stage-details-tax").find("#stage-details-tax-text").text("R$ " + number_format(new_tax, 2, ",", "."));
+            $("#stage-details-tax").show();
+
+            $($(third_section).find("#tax")[0]).css("display", "flex");
+
+            $("#stage-details-total").find("#stage-details-total-text").text("R$ " + number_format((total + new_tax), 2, ",", "."));
+            $("#stage-details-add").show();
         }
 
         async function setNewDate() {
@@ -431,7 +449,10 @@
                 "method": "POST",
                 headers: {
                     "X-CSRF-Token": "{{ csrf_token() }}",
-                }
+                },
+                body: JSON.stringify({
+                    "secret_token": $("#secret_token").val()
+                })
             });
             new_date = await response.text();
 
@@ -447,7 +468,10 @@
                 "method": "POST",
                 headers: {
                     "X-CSRF-Token": "{{ csrf_token() }}",
-                }
+                },
+                body: JSON.stringify({
+                    "secret_token": $("#secret_token").val()
+                })
             });
             shipping_date_limit = await response.text();
 

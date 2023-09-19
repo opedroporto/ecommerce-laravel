@@ -15,7 +15,7 @@
 
         <style>
             @font-face {
-                font-family: "Outfit-Regular";
+                font-family: 'Outfit', sans-serif;
                 src: url("{{ asset('css/fonts/Outfit-Regular.ttf') }}");
             }
         </style>

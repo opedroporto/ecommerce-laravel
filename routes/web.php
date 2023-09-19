@@ -15,27 +15,28 @@ use App\Http\Controllers;
 |
 */
 
-// Admin
-Route::group([
-    "prefix" => "controle",
-    "as" => "admin.",
-    "middleware" => "authadmin"
-], function() {
-    // index
-    Route::get("/", [Controllers\AdminController::class, "index"])->name("index");
 
-    // produto
-    Route::group([
-        "as" => "produtos."
-    ], function() {
-        Route::get("/produtos", [Controllers\ProdutoController::class, "index"])->name("index");
-        Route::match(["get", "post"], "/produto/adicionar", [Controllers\ProdutoController::class, "store"])->name("add");
-        Route::get("/produto/{id}", [Controllers\ProdutoController::class, "showFull"])->name("show");
-        Route::post("/produto/deletar", [Controllers\ProdutoController::class, "destroy"])->name("delete");
-        Route::post("/produto/deletarvarios", [Controllers\ProdutoController::class, "destroymany"])->name("deletemany");
-        Route::post("/produto/editar", [Controllers\ProdutoController::class, "update"])->name("edit");
-    });
-});
+// Admin
+// Route::group([
+//     "prefix" => "controle",
+//     "as" => "admin.",
+//     "middleware" => "authadmin"
+// ], function() {
+//     // index
+//     Route::get("/", [Controllers\AdminController::class, "index"])->name("index");
+
+//     // produto
+//     Route::group([
+//         "as" => "produtos."
+//     ], function() {
+//         Route::get("/produtos", [Controllers\ProdutoController::class, "index"])->name("index");
+//         Route::match(["get", "post"], "/produto/adicionar", [Controllers\ProdutoController::class, "store"])->name("add");
+//         Route::get("/produto/{id}", [Controllers\ProdutoController::class, "showFull"])->name("show");
+//         Route::post("/produto/deletar", [Controllers\ProdutoController::class, "destroy"])->name("delete");
+//         Route::post("/produto/deletarvarios", [Controllers\ProdutoController::class, "destroymany"])->name("deletemany");
+//         Route::post("/produto/editar", [Controllers\ProdutoController::class, "update"])->name("edit");
+//     });
+// });
 
 // Site
 Route::group([
@@ -88,8 +89,8 @@ Route::group([
 
 // Webhook
 Route::group([
-    "prefix" => "",
+    "prefix" => "webhook",
     "as" => "webhook."
 ], function() {
-    Route::post("/", [Controllers\StripeController::class, "webhook"])->name("receive");
+    Route::match(["get", "post"], "/", [Controllers\StripeController::class, "webhook"])->name("receive");
 });

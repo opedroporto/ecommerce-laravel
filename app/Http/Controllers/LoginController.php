@@ -12,7 +12,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
 
 use App\Models\Endereco;
-use App\Models\User;
+use App\Models\Usuario;
 // use App\Models\Carrinho;
 
 class LoginController extends Controller
@@ -74,7 +74,7 @@ class LoginController extends Controller
             "dtnasc" => $data["datanasc"]
         ];
 
-        $user = User::create($user_data);
+        $user = Usuario::create($user_data);
 
         $end_data = [
             "cep" => $data["end_cep"],

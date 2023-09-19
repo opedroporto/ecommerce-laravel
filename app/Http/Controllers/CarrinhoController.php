@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Forma_de_pagamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 use App\Models\Colecao;
+use App\Models\Endereco;
 use App\Models\Produto;
 use App\Models\ProdutoColecao;
-use App\Models\Endereco;
 use App\Models\Item;
 use App\Models\Carrinho;
 

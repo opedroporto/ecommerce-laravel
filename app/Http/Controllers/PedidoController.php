@@ -11,6 +11,7 @@ use App\Models\Pedido;
 use App\Http\Requests\StorePedidoRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PedidoController extends Controller
 {
@@ -40,8 +41,11 @@ class PedidoController extends Controller
         $data = $request->validated();
 
         if ($data['forma'] == "entrega") {
-            $date = session()->get("shipping_date");
             $id_endereco = Endereco::whereId($data['endereco_entrega'])->where("id_usuario", auth()->user()->id)->get()->first()->id;
+            // $date = session()->get("shipping_date" . $data['secret_token']);
+            $date = getShippingDate([
+                'id_end' => $id_endereco
+            ]);
         } else if($data['forma'] == "retirada") {
             $date = $data['date'];
             $id_endereco = Endereco::whereId($data['endereco_retirada'])->where("id_usuario", 1)->get()->first()->id;
@@ -59,7 +63,11 @@ class PedidoController extends Controller
         ];
 
         if ($data['forma'] == "entrega") {
-            $pedido_data['valor'] = CarrinhoCompras::getTotal() * CarrinhoCompras::getAdditional();
+            // $pedido_data['taxa_entrega'] = session()->get("shipping_tax" . $data['secret_token']);
+            $pedido_data['taxa_entrega'] = getShippingTax([
+                'id_end' => $id_endereco
+            ]);
+            $pedido_data['valor'] = CarrinhoCompras::getTotal() * CarrinhoCompras::getAdditional() + $pedido_data['taxa_entrega'];
         } else {
             $pedido_data['valor'] = CarrinhoCompras::getTotal();
         }

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Fran'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt_br',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,8 +169,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class
+        App\Providers\RouteServiceProvider::class
     ])->toArray(),
 
     /*
@@ -186,7 +185,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
     ])->toArray(),
 
 ];
