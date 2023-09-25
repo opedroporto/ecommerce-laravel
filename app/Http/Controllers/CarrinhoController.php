@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Forma_de_pagamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
@@ -32,14 +31,14 @@ class CarrinhoController extends Controller
     public function add(Request $request) {
         // colecao
         if (isset($request->type) && $request->type == "colecao") {
-            $colecao = Colecao::find($request->id);
+            $colecao = Colecao::whereId($request->id)->first();
             
             $item_dados = [
                 "tipo" => "colecao",
                 "nome" => $colecao->nome,
                 "quantidade" => 1,
                 "id_produto" => $colecao->id,
-                "produto" => Colecao::find($colecao->id)
+                "produto" => $colecao
             ];
 
             // produto coleção
@@ -51,8 +50,8 @@ class CarrinhoController extends Controller
                 $produto['quantidade_colecao'] = $produto_colecao->quantidade;
                 
                 array_push($produtos, $produto);
-            
             }
+
             // set collection value
             if (!isset($colecao['valor'])) {
                 $colecao_valor = 0;
@@ -80,6 +79,12 @@ class CarrinhoController extends Controller
         if (auth()->guest()) {
             $item_dados['id'] = Str::random(9);
         }
+
+        // check stock
+        // if (($item_dados['produto']['quantidade'] - $item_dados['quantidade']) < 0) {
+        //     // erro
+        //     return redirect()->back()->withErrors(['erro' => 'Não é possível continuar neste momento (possível motivo: falta de estoque)']);
+        // }
 
         CarrinhoCompras::setItem($item_dados);
 

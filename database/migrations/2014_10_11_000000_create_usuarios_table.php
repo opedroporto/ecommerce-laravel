@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('senha');
             $table->string('cpf', 15)->unique();
             $table->string('tel', 15);
-            $table->timestamp('dtnasc');
+            $table->date('dtnasc');
 
             $table->rememberToken();
 

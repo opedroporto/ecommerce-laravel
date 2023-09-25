@@ -27,11 +27,15 @@
                     @else
                     <a class="clickable-item" href="{{ route("site.vercolecao", [$item['produto']['id'], $item['produto']['slug']]) }}">
                     @endif
-                        <img class="row-img" src="{{ $item['produto']['img'] }}" alt="{{ $item['nome'] }}">
+
+                    {{-- {{ $item['produto'] }} --}}
+                    <img class="row-img" src="{{ $item['produto']['img'] }}" alt="{{ $item['nome'] }}">
+                    
+
                     </a>
                     <div class="row-info">
                         <p>{{ $item['nome'] }}</p>
-                        <p class="preço-info secondary-info">Preço: {{ number_format($item['valor'], 2, ",", ".") }}</p>
+                        <p class="preço-info secondary-info">Preço: R$ {{ number_format($item['valor'], 2, ",", ".") }}</p>
                         <p class="quantidade-info">Quantidade: {{ $item['quantidade'] }}</p>
                         @if ($item['tipo'] != "colecao")
                         <p class="quantidade-input-p"> Quantidade: <input class="quantidade-input" type="number" min="0" value="{{ $item['quantidade'] }}"></p>
@@ -50,7 +54,7 @@
         </div>
 
         <div id="bottom-div">
-            <p id="total-p">Total: {{ number_format($total, 2, ",", ".") }}</p>
+            <p id="total-p">Total: R$ {{ number_format($total, 2, ",", ".") }}</p>
             {{-- <form id="finalizar-form" action="{{ route("site.addpedido") }}" method="POST">
                 @csrf
                 <button id="finalizar-btn" type="submit">Fazer pedido</button>
@@ -134,11 +138,11 @@
             location.reload();
         }
 
-        $(itemRow).find(".preço-info").text("Preço: " + json_response['valor']);
+        $(itemRow).find(".preço-info").text("Preço: R$ " + json_response['valor']);
         $(itemRow).find(".quantidade-info").text("Quantidade: " + json_response['quantidade']);
         $(itemRow).find(".quantidade-input").val(json_response['quantidade']);
 
-        $("#total-p").text("Total: " + json_response['total']);
+        $("#total-p").text("Total: R$ " + json_response['total']);
 
         $(itemRow).find(".edit-item-btn").show();
         $(itemRow).find(".delete-item-btn").show();

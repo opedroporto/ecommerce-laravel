@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProdutoColecao extends Model
 {
+    protected $guarded = [];
+
     use CrudTrait;
     protected $table = "produto_colecao";
 

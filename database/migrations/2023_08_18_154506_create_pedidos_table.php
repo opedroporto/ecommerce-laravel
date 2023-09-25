@@ -19,12 +19,12 @@ return new class extends Migration
             $table->boolean("entrega")->default(false);
             $table->boolean("retirada")->default(false);
             $table->float("taxa_entrega", 8, 2)->nullable();
+            $table->float("taxa_montagem", 8, 2)->nullable();
 
             $table->text("observacao")->nullable();
 
             $table->longText("uri_pagamento")->nullable();
 
-            $table->boolean("finalizado")->default(false);
             $table->boolean("pago")->default(false);
 
             $table->unsignedBigInteger("id_forma_de_pagamento");

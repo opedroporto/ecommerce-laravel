@@ -14,6 +14,14 @@
     <h1 id="title"> Painel de Controle </h1>
 </div>
 
+<a href="{{ route("admin.produtos.index") }}">Produtos</a><br>
+<a href="{{ route("admin.colecoes.index") }}">Coleções</a><br>
+<a href="{{ route("admin.categorias.index") }}">Categorias</a><br>
+<a href="{{ route("admin.usuarios.index") }}">Usuários</a><br>
+<a href="{{ route("admin.enderecos.index") }}">Endereços</a><br>
+
+<a href="{{ route("admin.pedidos.index") }}">Pedidos</a><br>
+
 <div class="container ">
     <section class="section">
         <div class="section-title">

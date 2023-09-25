@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Endereco;
-use App\Models\Forma_de_pagamento;
+use App\Models\FormaDePagamento;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,7 +31,8 @@ class StorePedidoRequest extends FormRequest
         $rules = [
             'secret_token' => ["required", "min:20", "max:20"],
             'forma' => ["required", "regex:/^(entrega)|(retirada)$/"],
-            'pagamento' => ["required", "regex:/^(pix)|(cc)|(cd)|(boleto)$/"],
+            // 'pagamento' => ["required", "regex:/^(pix)|(cc)|(cd)|(boleto)|(c)$/"],
+            'pagamento' => ["required", "regex:/^c$/"],
             'obs' => "nullable|min:1|max:255",
         ];
         
@@ -63,8 +64,8 @@ class StorePedidoRequest extends FormRequest
             }
             // payment
             if (!empty($this->get("pagamento"))) {
-                $alias_forma_de_pagamento = Forma_de_pagamento::where("alias", $this->get("pagamento"))->get()->first()->alias;
-                $this->id_forma_de_pagamento = Forma_de_pagamento::where("alias", $this->get("pagamento"))->get()->first()->id;
+                $alias_forma_de_pagamento = FormaDePagamento::where("alias", $this->get("pagamento"))->get()->first()->alias;
+                $this->id_forma_de_pagamento = FormaDePagamento::where("alias", $this->get("pagamento"))->get()->first()->id;
                 $rules['pagamento'] = ["regex:/^" . $alias_forma_de_pagamento . "$/"];
                 // $this->replace(['pagamento' => $id_forma_de_pagamento]);
             }

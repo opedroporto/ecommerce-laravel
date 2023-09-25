@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
+    protected $guarded = [];
+
     use HasFactory;
 
     public function produtos() {

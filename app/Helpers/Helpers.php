@@ -28,24 +28,24 @@ function mask($val, $mask)
 
 function format_endereco($endereco) {
     $end_complemento = $endereco->complemento ? ", " . $endereco->complemento : "";
-    $end_cep = mask($endereco->cep, '#####-###');
+    $end_cep = format_cep($endereco->cep);
     return  "Rua {$endereco->rua}{$end_complemento}, {$endereco->bairro}, {$endereco->cidade}, {$endereco->uf}, {$end_cep}";
 }
 
 function format_cep($cep) {
-
+    // $cep = str_replace("-", "$cep);
+    $cep = preg_replace("/[^0-9]/", '', $cep);
+    return mask($cep, '#####-###');
 }
 
 function getShippingTax($data) {
     // origem
     $endereco = Endereco::whereId(1)->get()->first();
     $origem_end = urlencode(format_endereco($endereco));
-    $origem_end = "18075300";
     
     // destino
     $endereco = Endereco::whereId($data['id_end'])->get()->first();
     $destino_end = urlencode(format_endereco($endereco));
-    $destino_end = "18076300";
     
     // call api
     $uri = "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" . $destino_end . "&origins=" . $origem_end . "&key=" . env('GOOGLE_MAPS_API_KEY');
@@ -59,18 +59,20 @@ function getShippingTax($data) {
         $distance_km = $distance / 1000;
         $shipping_tax = $distance_km * 5;
 
-        return $shipping_tax;
-        session()->put("shipping_tax" . $data->secret_token, $shipping_tax);
+        // return $shipping_tax;
+        session()->put("shipping_tax" . $data['secret_token'], $shipping_tax);
         session()->save();
+        return session()->get("shipping_tax" . $data['secret_token']);
 
         // return "R$ " . number_format($shipping_tax, 2, ",", ".");
     } catch (\Exception $e) {
         // default fallback shipping tax
         $shipping_tax = 50;
 
-        return $shipping_tax;
-        session()->put("shipping_tax" . $data->secret_token, $shipping_tax);
+        // return $shipping_tax;
+        session()->put("shipping_tax" . $data['secret_token'], $shipping_tax);
         session()->save();
+        return session()->get("shipping_tax" . $data['secret_token']);
 
     }
 }
@@ -79,10 +81,10 @@ function getWithdrawalDate($data) {
     $date = Carbon::now()->addDays(3)->format("Y-m-d");
     return $date;
     
-    session()->put("min_withdrawal_date" . $data->secret_token, $date);
+    session()->put("min_withdrawal_date" . $data['secret_token'], $date);
     session()->save();
 
-    return session()->get("min_withdrawal_date" . $data->secret_token);
+    return session()->get("min_withdrawal_date" . $data['secret_token']);
     // return $date;
 }
 
@@ -90,9 +92,23 @@ function getShippingDate($data) {
     $date = Carbon::now()->addDays(7)->format("Y-m-d");
     return $date;
 
-    session()->put("shipping_date" . $data->secret_token, $date);
+    session()->put("shipping_date" . $data['secret_token'], $date);
     session()->save();
 
-    return session()->get("shipping_date" . $data->secret_token);
+    return session()->get("shipping_date" . $data['secret_token']);
     // return $date;
+}
+
+function usuarioRole($role) {
+    switch ($role) {
+        case 0:
+            return "Usuário";
+            break;
+        case 1:
+            return "Administrador";
+            break;
+        default:
+            return "Indefinido";
+            break;
+    }
 }

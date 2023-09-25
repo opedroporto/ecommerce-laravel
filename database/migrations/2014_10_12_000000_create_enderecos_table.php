@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string("cep", 9);
             $table->string("uf", 2);
 
-            $table->unsignedBigInteger("id_usuario");
-            $table->foreign('id_usuario')->references('id')->on('usuarios');
+            $table->unsignedBigInteger("id_usuario")->nullable();
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('set null');
 
             $table->timestamps();
         });

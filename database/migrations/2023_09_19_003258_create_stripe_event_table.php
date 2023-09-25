@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('stripe_event', function (Blueprint $table) {
             $table->id();
+
+            $table->json("data");
+
             $table->timestamps();
         });
     }

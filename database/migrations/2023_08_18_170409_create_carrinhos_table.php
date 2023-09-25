@@ -22,7 +22,7 @@ return new class extends Migration
             // $table->longText('dados');
 
             $table->unsignedBigInteger("id_usuario")->nullable();
-            $table->foreign('id_usuario')->references('id')->on('usuarios');
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onUpdate("cascade")->onDelete("cascade");
 
             $table->timestamps();
         });

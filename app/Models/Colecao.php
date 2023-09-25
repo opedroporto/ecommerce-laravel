@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Colecao extends Model
 {
-    use CrudTrait;
+    protected $guarded = [];
+    
     protected $table = "colecoes";
+
+    use CrudTrait;
 
     use HasFactory;
 

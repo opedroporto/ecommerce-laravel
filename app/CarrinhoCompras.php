@@ -30,7 +30,7 @@ class CarrinhoCompras {
                 } else {
                     $existing_item['produto'] = Produto::find($existing_item['id_produto'])->first();
                 }
-
+                
                 self::updateItem($id, [
                     'quantidade' => $new_quantidade,
                     'valor' => $new_quantidade * $existing_item['produto']['valor']
@@ -93,9 +93,9 @@ class CarrinhoCompras {
             $new_items = [];
             foreach($items as $item) {
                 if ($item['tipo'] == "colecao") {
-                    $item['produto'] = Colecao::find($item['id_produto'])->first();
+                    $item['produto'] = Colecao::whereId($item['id_produto'])->first();
                 } else {
-                    $item['produto'] = Produto::find($item['id_produto'])->first();
+                    $item['produto'] = Produto::whereId($item['id_produto'])->first();
                 }
                 array_push($new_items, $item);
             }
@@ -122,9 +122,9 @@ class CarrinhoCompras {
             $item = Item::where("id_carrinho", $id_carrinho)->whereId($id)->get()->first(); // item
             // with
             if ($item['tipo'] == "colecao") {
-                $item['produto'] = Colecao::find($item['id_produto'])->first();
+                $item['produto'] = Colecao::whereId($item['id_produto'])->first();
             } else {
-                $item['produto'] = Produto::find($item['id_produto'])->first();
+                $item['produto'] = Produto::whereId($item['id_produto'])->first();
             }
             // $item = Item::with("produto")->whereId($id)->get()->first(); // item
         // guest
@@ -218,7 +218,7 @@ class CarrinhoCompras {
         if (auth()->user()) {
             $items = self::getItems();
             foreach ($items as $item) {
-                Item::find($item->id)->delete();
+                Item::whereId($item->id)->delete();
             }
         // guest
         } else {

@@ -87,7 +87,7 @@
             <div class="stage-content">
                 <div class="stage-innercontent">
                     <fieldset class="stage-fieldset">
-                        <div>
+                        {{-- <div>
                             <input id="pix" type="radio" value="pix" name="pagamento">
                             <label for="pix">Pix</label>
                         </div>
@@ -102,6 +102,10 @@
                         <div>
                             <input id="boleto" type="radio" value="pix" name="pagamento">
                             <label for="boleto">Boleto</label>
+                        </div> --}}
+                        <div>
+                            <input id="c" type="radio" value="c" name="pagamento">
+                            <label for="c">Cartão de Crédito/Débito</label>
                         </div>
                     </fieldset>
                 </div>

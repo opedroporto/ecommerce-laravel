@@ -51,8 +51,8 @@
                                 $old_cpf_email = "";
                             }
                         @endphp
-                        <input id="cpf_email" class="{{ ($errors->login->first('cpf') || $errors->login->first("email") ? " input-error" : "") }}" type="email" name="email" value="{{ $old_cpf_email }}" required>
-                        <button id="cpf_email-btn"  type="button">
+                        <input id="cpf_email" class="{{ ($errors->login->first('cpf') || $errors->login->first("email") ? " input-error" : "") }}" type="email" name="email" value="{{ $old_cpf_email }}" tabindex="1" required>
+                        <button id="cpf_email-btn" type="button" tabindex="3">
                             <p id="cpf_email-btn-text">Logar com CPF</p>
                         </button>
                     </div>
@@ -61,7 +61,7 @@
                 </div>
                 <div>
                     <label>Senha:</label>
-                    <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" value="{{ old("senha") }}" required>
+                    <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" value="{{ old("senha") }}" tabindex="2" required>
                     <p class="error-msg">{{ $errors->login->first('senha') ? $errors->login->first('senha') : "" }}</p>
                 </div>
 
@@ -157,11 +157,9 @@
                         <p class="error-msg">{{ $errors->signup->first('end_cidade') ? $errors->signup->first('end_cidade') : "" }}</p>
                     </div>
                     <div style="width: 30%;">
-                          <label>UF:</label><br>
-                        <input id="cad_end_uf" class="{{ ($errors->signup->first('end_uf') ? "input-error" : "") }}" list="uf-list" maxlength="2" name="end_uf" value="{{ old('end_uf') }}" required>
-                        <p class="error-msg">{{ $errors->signup->first('end_uf') ? $errors->signup->first('end_uf') : "" }}</p>
-                        <datalist id="uf-list">
-                            <option value="">Selecione</option>
+                        <label>UF:</label><br>
+                        <select id="cad_end_uf" class="{{ ($errors->signup->first('end_uf') ? "input-error" : "") }}" name="end_uf" value="{{ old('end_uf') }}" required>
+                            <option disabled selected value="">Selecione</option>
                             <option value="AC">AC (Acre)</option>
                             <option value="AL">AL (Alagoas)</option>
                             <option value="AP">AP (Amapá)</option>
@@ -189,7 +187,8 @@
                             <option value="SP">SP (São Paulo)</option>
                             <option value="SE">SE (Sergipe)</option>
                             <option value="TO">TO (Tocantins)</option>
-                        </datalist>
+                        </select>
+                        <p class="error-msg">{{ $errors->signup->first('end_uf') ? $errors->signup->first('end_uf') : "" }}</p>
                     </div>
                 </div>
                 <div>
@@ -335,6 +334,7 @@
             $("#login-img2").height($("#login-popup-box").outerHeight());
             $("#login-img2").show();
             $("#login-img").hide();
+            
         }
 
         $("#signup-btn").click(() => {

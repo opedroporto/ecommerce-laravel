@@ -87,6 +87,21 @@
     /* border-radius: .25rem; */
 }
 
+#cad_end_uf {
+    font-size: 1.25rem;
+    width: 100%;
+    height: 2rem;
+    margin: .5rem 0 .5rem 0;
+    padding: .25rem;
+    color: white;
+    background-color: transparent;
+    border: 1px solid #ccc;
+}
+
+#cad_end_uf > option {
+    color: black;
+}
+
 #login-title {
     text-align: center;
     font-weight: bolder;
@@ -226,7 +241,7 @@
 }
 
 #cad_end_uf {
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     /* min-width: 2.5rem;
     max-width: 3rem; */
 }

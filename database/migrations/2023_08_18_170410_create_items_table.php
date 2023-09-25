@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger("id_pedido")->nullable();
-            $table->foreign('id_pedido')->references('id')->on('pedidos');
+            $table->foreign('id_pedido')->references('id')->on('pedidos')->onDelete('set null');
 
             $table->unsignedBigInteger("id_carrinho")->nullable();
-            $table->foreign('id_carrinho')->references('id')->on('carrinhos');
+            $table->foreign('id_carrinho')->references('id')->on('carrinhos')->onDelete('set null');
 
             $table->text("tipo");
 
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer("quantidade");            
 
             $table->unsignedBigInteger("id_produto");
-            $table->foreign('id_produto')->references('id')->on('produtos');
+            // $table->foreign('id_produto')->references('id')->on('produtos');
 
             $table->timestamps();
         });

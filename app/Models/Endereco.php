@@ -14,6 +14,6 @@ class Endereco extends Model
     use HasFactory;
 
     public function usuario() {
-        return $this->belongsTo(App\Models\Usuario);
+        return $this->belongsTo("App\Models\Usuario", "id_usuario");
     }
 }

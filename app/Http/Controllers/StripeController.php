@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\CarrinhoCompras;
-
+use App\Models\Produto;
+use App\Models\Colecao;
+use App\Models\StripeEvent;
 
 class StripeController extends Controller
 {
@@ -26,6 +28,13 @@ class StripeController extends Controller
         $line_items = [];
 
         foreach ($items as $item) {
+            // type
+            if ($item['tipo'] == "colecao") {
+                $item['produto'] = Colecao::whereId($item['id_produto'])->first();
+            } elseif ($item['tipo'] == "produto") {
+                $item['produto'] = Produto::whereId($item['id_produto'])->first();
+            }
+
             $item_price = $item->price * 100;
 
             $line_items[] = [
@@ -34,7 +43,7 @@ class StripeController extends Controller
                     "product_data" => [
                         "name" => $item->nome
                     ],
-                    "unit_amount" => $item->valor * 100    
+                    "unit_amount" => $item['produto']->valor * 100    
                 ],
                 "quantity" => $item->quantidade
             ];
@@ -93,19 +102,20 @@ class StripeController extends Controller
             'path' => storage_path('logs/custom.log'),
         ])->info('Webhook route accessed');
 
-        $payload = json_decode($request->getContent(), true);
+        $json_payload = $request->getContent();
+        $payload = json_decode($json_payload, true);
 
         Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/custom.log'),
         ])->info($payload);
-        // Log::build([
-        //     'driver' => 'single',
-        //     'path' => storage_path('logs/custom.log'),
-        // ])->info(implode($payload));
 
-        // Log::debug('Webhook.');
-        // Log::debug(implode($payload));
+        // build stripe event
+        $stripe_event_data = [
+            'data' => $json_payload
+        ];
+        // save stripe event
+        $stripe_event = StripeEvent::create($stripe_event_data);
 
         return new Response('OK', 200);
     }
