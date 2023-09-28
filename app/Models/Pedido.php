@@ -16,7 +16,7 @@ class Pedido extends Model
     }
 
     public function endereco() {
-        return $this->belongsTo("App\Models\Usuario", "id_endereco");
+        return $this->belongsTo("App\Models\Endereco", "id_endereco");
     }
 
     public function usuario() {

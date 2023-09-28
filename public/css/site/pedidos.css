@@ -5,5 +5,56 @@
 }
 
 .pedido {
-    background: red;
+    padding: 1rem;
+}
+
+.pedido-finalizado {
+    background: rgb(7, 58, 7);
+}
+
+.pedido-aguardando {
+    background: rgb(75, 52, 10);
+}
+
+.pedido-expirado {
+    background: rgb(70, 10, 10);
+}
+
+.status-text {
+    text-align: center;
+    padding: .5rem;
+    margin: .25rem 0 .25rem 0;
+    border: 1px solid black;
+}
+
+.items-div {
+    display: flex;
+    flex-direction: column;
+}
+
+#stage-details {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    cursor: auto;
+}
+
+.stage-details-item {
+    display: flex;
+    align-items: center;
+    margin: .25rem 0 .25rem .5rem;
+}
+
+#stage-details-tax {
+    display: none;
+}
+
+.satage-details-item-img {
+    width: 3rem;
+    margin: 0 .5rem 0 0;
+}
+
+.light-text {
+    color: #ccc;
+    font-size: .85rem;
 }

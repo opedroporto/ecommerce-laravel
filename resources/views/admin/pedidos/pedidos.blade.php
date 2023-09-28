@@ -49,7 +49,8 @@
 						</td>
 						<td>{{ $pedido->id }}</td>
 						<td>R$ {{ number_format($pedido->valor) }}</td>
-						<td>{{ $pedido->pago ? "Pago" : "Pagamento pendente" }}</td>
+						<td>{{ json_decode($pedido->session_data)->status }}</td>
+						<!-- <td>{{ $pedido->pago ? "Pago" : "Pagamento pendente" }}</td> -->
 						<td>{{ $pedido->entrega ? "Entrega" : "Retirada" }}</td>
 						{{-- <td>{{ format_endereco($endereco) }}</td> --}}
 						@if ($pedido->usuario)

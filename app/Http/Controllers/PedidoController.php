@@ -22,7 +22,35 @@ class PedidoController extends Controller
      */
     public function index()
     {
+        $stripe = new \Stripe\StripeClient(config("stripe.pk"));
+
         $pedidos = Pedido::where("id_usuario", auth()->user()->id)->get()->all();
+
+        foreach($pedidos as $pedido) {
+            $session_data = $stripe->checkout->sessions->retrieve(
+                $pedido->session_id,
+                []
+            );
+
+            // $pedido['session_data'] = $pedido_data;
+            
+            Pedido::whereId($pedido->id)->update([
+                "session_data" => json_encode($session_data),
+                "session_id" => $session_data->id,
+                "uri_pagamento" => $session_data->url
+            ]);
+        }
+        $pedidos = Pedido::with("usuario")->with("items_pedido")->with("forma_de_pagamento")->where("id_usuario", auth()->user()->id)->orderByDesc('created_at')->get()->all();
+        foreach($pedidos as $pedido) {
+            foreach($pedido['items_pedido'] as $item) {
+                if ($item['tipo'] == "colecao") {
+                    $item['produto'] = Colecao::whereId($item['id_produto'])->first();
+                } elseif ($item['tipo'] == "produto") {
+                    $item['produto'] = Produto::whereId($item['id_produto'])->first();
+                }
+            }
+        }
+        // $pedidos = Pedido::where("id_usuario", auth()->user()->id)->get()->all();
 
         return view("site.pedidos", compact("pedidos"));
     }

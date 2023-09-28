@@ -112,3 +112,20 @@ function usuarioRole($role) {
             break;
     }
 }
+
+function translateStatus($status) {
+    switch ($status) {
+        case "open":
+            return "Aguardando pagamento";
+            break;
+        case "complete":
+            return "Finalizado";
+            break;
+        case "expired":
+            return "Expirado";
+            break;
+        default:
+            return "Indefinido";
+            break;
+    }
+}

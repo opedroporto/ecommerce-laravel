@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
+use \Datetime;
+
 use App\CarrinhoCompras;
 use App\Models\Produto;
 use App\Models\Colecao;
@@ -19,7 +21,8 @@ class StripeController extends Controller
     public function checkout(Request $request) {
 
         // set Stripe API key
-        \Stripe\Stripe::setApiKey(config("stripe.pk"));
+        // \Stripe\Stripe::setApiKey(config("stripe.pk"));
+        $stripe = new \Stripe\StripeClient(config("stripe.pk"));
 
         // get items
         $items = Item::where("id_pedido", $request->id)->get()->all();
@@ -75,16 +78,29 @@ class StripeController extends Controller
             ];
         }
 
+        $time = new DateTime();
+        $time->modify('+30 minutes');
+        $timestamp = $time->getTimestamp();
         // create checkout session
-        $session = \Stripe\Checkout\Session::create([
+        // $session = \Stripe\Checkout\Session::create([
+        //     "line_items" => $line_items,
+        //     "mode" => "payment",
+        //     "success_url" => route("site.getpedidos"),
+        //     "cancel_url" => route("site.index"),
+        //     "expires_at" => $timestamp
+        // ]);
+        $session = $stripe->checkout->sessions->create([
             "line_items" => $line_items,
             "mode" => "payment",
-            "success_url" => route("site.success"),
-            "cancel_url" => route("site.index")
+            "success_url" => route("site.getpedidos"),
+            "cancel_url" => route("site.index"),
+            "expires_at" => $timestamp
         ]);
 
         // set order payment uri
         Pedido::whereId($pedido->id)->update([
+            "session_data" => json_encode($session),
+            "session_id" => $session->id,
             "uri_pagamento" => $session->url
         ]);
 

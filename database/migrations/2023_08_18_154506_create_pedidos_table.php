@@ -23,6 +23,8 @@ return new class extends Migration
 
             $table->text("observacao")->nullable();
 
+            $table->longText("session_data")->json()->nullable();
+            $table->longText("session_id")->nullable();
             $table->longText("uri_pagamento")->nullable();
 
             $table->boolean("pago")->default(false);
