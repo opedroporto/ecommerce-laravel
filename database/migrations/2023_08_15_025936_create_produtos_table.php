@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
 
             $table->string("nome", 50);
-            $table->text("descricao");
+            $table->text("descricao")->nullable();
             $table->string("img", 150);
             $table->float("valor", 8, 2);
             $table->string("slug", 50);
             $table->unsignedInteger("quantidade");
 
-            $table->unsignedBigInteger("id_categoria");
-            $table->foreign('id_categoria')->references('id')->on('categorias')->onUpdate("restrict")->onDelete("restrict");
+            $table->unsignedBigInteger("id_categoria")->nullable();
+            // $table->foreign('id_categoria')->references('id')->on('categorias')->onUpdate("set null")->onDelete("set null");
+            $table->foreign('id_categoria')->references('id')->on('categorias')->onUpdate("cascade")->onDelete("cascade");
 
             $table->timestamps();
         });

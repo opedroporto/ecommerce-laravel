@@ -1,7 +1,7 @@
 <span>
 
 <input type="checkbox" id="addmodal" class="modal-checkbox">
-<label for="addmodal" class="btn btn-add"><i class="fa-solid fa-plus"></i> <span>Novo pedido</span></label>
+<label for="addmodal" class="btn btn-add"><p><i class="fa-solid fa-plus"></i> <span>Novo pedido</span></p></label>
 
 <label for="addmodal" class="modal-background"></label>
 
@@ -29,9 +29,30 @@
         </div>
 
         <div>
-            <label>Data do pedido:</label>
+            <label>Data do evento:</label>
             <input class="{{ ($errors->first('data') ? "input-error" : "") }}" type="date" name="data" value="{{ old("data") }}" required>
             <p class="error-msg">{{ $errors->first('data') ? $errors->first('data') : "" }}</p>
+        </div>
+
+        <div>
+            <label>Data de INÍCIO do evento:</label>
+            <input class="{{ ($errors->first('data') ? "input-error" : "") }}" type="date" name="data" required>
+            <p class="error-msg">{{ $errors->first('data') ? $errors->first('data') : "" }}</p>
+        </div>
+        <div>
+            <label>Horário de INÍCIO (8h - 18h):</label>
+            <input class="{{ ($errors->first('time') ? "input-error" : "") }}" type="time" name="time" min="08:00" max="18:00" required> 
+            <p class="error-msg">{{ $errors->first('time') ? $errors->first('time') : "" }}</p>
+        </div>
+        <div>
+            <label>Data de FIM do evento:</label>
+            <input class="{{ ($errors->first('data2') ? "input-error" : "") }}" type="date" name="data2" required>
+            <p class="error-msg">{{ $errors->first('data2') ? $errors->first('data2') : "" }}</p>
+        </div>
+        <div>
+            <label>Horário de FIM (8h - 18h):</label>
+            <input class="{{ ($errors->first('time2') ? "input-error" : "") }}" type="time" name="time2" min="08:00" max="18:00" required> 
+            <p class="error-msg">{{ $errors->first('time2') ? $errors->first('time2') : "" }}</p> 
         </div>
 
         <div>
@@ -74,9 +95,13 @@
         </div>
 
         <div>
-            <label>Pago:</label>
-            <input type="checkbox" name="pago" {{ old("pago") ? "checked" : "" }}>
-            <p class="error-msg">{{ $errors->first('pago') ? $errors->first('pago') : "" }}</p>
+            <label>Status:</label>
+            <select class="{{ ($errors->first('status') ? "input-error" : "") }}" name="status" required>
+                @foreach ($statuses as $status)
+                    <option value="{{ $status['value'] }}">{{ $status['name'] }}</option>
+                @endforeach
+            </select>
+            <p class="error-msg">{{ $errors->first('status') ? $errors->first('status') : "" }}</p>
         </div>
 
         <div>

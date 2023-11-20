@@ -28,9 +28,24 @@
         </div>
 
         <div>
-            <label>Data do pedido:</label>
+            <label>Data de INÍCIO do evento:</label>
             <input class="{{ ($errors->first('data') ? "input-error" : "") }}" type="date" name="data" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->data)->format('Y-m-d') }}" required disabled>
             <p class="error-msg">{{ $errors->first('data') ? $errors->first('data') : "" }}</p>
+        </div>
+        <div>
+            <label>Horário de INÍCIO (8h - 18h):</label>
+            <input class="{{ ($errors->first('time') ? "input-error" : "") }}" type="time" name="time" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->data)->format('H:i') }}" min="08:00" max="18:00" required disabled> 
+            <p class="error-msg">{{ $errors->first('time') ? $errors->first('time') : "" }}</p>
+        </div>
+        <div>
+            <label>Data de FIM do evento:</label>
+            <input class="{{ ($errors->first('data2') ? "input-error" : "") }}" type="date" name="data2" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->data_fim)->format('Y-m-d') }}" required disabled>
+            <p class="error-msg">{{ $errors->first('data2') ? $errors->first('data2') : "" }}</p>
+        </div>
+        <div>
+            <label>Horário de FIM (8h - 18h):</label>
+            <input class="{{ ($errors->first('time2') ? "input-error" : "") }}" type="time" name="time2" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->data)->format('H:i') }}" min="08:00" max="18:00" required disabled> 
+            <p class="error-msg">{{ $errors->first('time2') ? $errors->first('time2') : "" }}</p> 
         </div>
 
         <div>
@@ -66,10 +81,24 @@
             <p class="error-msg">{{ $errors->first('uri_pagamento') ? $errors->first('uri_pagamento') : "" }}</p>
         </div>
 
-        <div>
+        {{-- <div>
             <label>Pago:</label>
             <input type="checkbox" name="pago" {{ $item->pago ? "checked" : "" }} required disabled>
             <p class="error-msg">{{ $errors->first('pago') ? $errors->first('pago') : "" }}</p>
+        </div> --}}
+
+        <div>
+            <label>Status:</label>
+            <select class="{{ ($errors->first('status') ? "input-error" : "") }}" name="status" required disabled>
+                @foreach ($statuses as $status)
+                    @if ($status['value'] == $item->status)
+                        <option value="{{ $status['value'] }}" selected="selected">{{ $status['name'] }}</option>
+                    @else
+                        <option value="{{ $status['value'] }}">{{ $status['name'] }}</option>
+                    @endif
+                @endforeach
+            </select>
+            <p class="error-msg">{{ $errors->first('status') ? $errors->first('status') : "" }}</p>
         </div>
 
         <div>

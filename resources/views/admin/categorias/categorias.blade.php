@@ -14,7 +14,7 @@
 		<div class="table-title">
 			<div class="row">
 				<div class="row-left">
-					<h2>Painel de <b>Categorias</b></h2>
+					<h2><i class="fa-solid fa-table-cells-large"></i> Painel de <b>Categorias</b></h2>
 					<div class="search-div">
 						<input class="search-input" type="text" placeholder="Pesquise por categorias" value="{{ request()->get('search') }}">
 						<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -26,36 +26,39 @@
 				</div>
 			</div>
 		</div>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th></th>
-					<th>ID</th>
-					<th>Nome</th>
-					<th>Descrição</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach ($categorias as $categoria)	
+		<div class="table-scroll">
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-						<td>
-							<span>
-								<input type="checkbox" id="checkbox{{ $categoria->id }}" class="row-checkbox" name="options[]" value="{{ $categoria->id }}">
-								<label for="checkbox{{ $categoria->id }}"></label>
-							</span>
-						</td>
-						<td>{{ $categoria->id }}</td>
-						<td>{{ Str::limit($categoria->nome, 40) }}</td>
-						<td>{{ Str::limit($categoria->descricao, 20) }}</td>
-						<td class="options-td">
-							@include("admin.categorias.modals.viewmodal", ["id" => $categoria->id, "item" => $categoria])
-							@include("admin.categorias.modals.editmodal", ["id" => $categoria->id, "item" => $categoria])
-							@include("admin.categorias.modals.deletemodal", ["id" => $categoria->id])
-						</td>
+						<th></th>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Descrição</th>
+						<th>Opções</th>
 					</tr>
-				@endforeach
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					@foreach ($categorias as $categoria)	
+						<tr>
+							<td>
+								<span>
+									<input type="checkbox" id="checkbox{{ $categoria->id }}" class="row-checkbox" name="options[]" value="{{ $categoria->id }}">
+									<label for="checkbox{{ $categoria->id }}"></label>
+								</span>
+							</td>
+							<td>{{ $categoria->id }}</td>
+							<td>{{ Str::limit($categoria->nome, 30) }}</td>
+							<td>{{ Str::limit($categoria->descricao, 20) }}</td>
+							<td class="options-td">
+								@include("admin.categorias.modals.viewmodal", ["id" => $categoria->id, "item" => $categoria])
+								@include("admin.categorias.modals.editmodal", ["id" => $categoria->id, "item" => $categoria])
+								@include("admin.categorias.modals.deletemodal", ["id" => $categoria->id])
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
 		<div class="clearfix">
 			{{ $categorias->links("custom.paginator") }}
 		</div>

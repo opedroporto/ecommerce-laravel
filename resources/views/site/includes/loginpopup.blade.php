@@ -63,6 +63,7 @@
                     <label>Senha:</label>
                     <input class="{{ ($errors->login->first('senha') ? "input-error" : "") }}" type="password" name="senha" minlength="8" maxlength="255" value="{{ old("senha") }}" tabindex="2" required>
                     <p class="error-msg">{{ $errors->login->first('senha') ? $errors->login->first('senha') : "" }}</p>
+                    <a href="{{ route("login.resetarsenha") }}">Esqueceu sua senha?</a>
                 </div>
 
                 <div id="login-bottom">
@@ -210,6 +211,13 @@
 @push('scripts')
 <script src="{{ asset("js/jquery/jquery.inputmask.min.js") }}"></script>
 <script>
+        {{-- @if (Session::get("black_bg"))
+            blackBg();
+        @endif
+        function blackBg() {
+            $("#login-popup-wrapper").css("background-color", "black")
+        } --}}
+
         @if (Session::get("login_needed"))
                 loginPopupShow();
         @endif
@@ -220,6 +228,7 @@
             loginPopupShow();
             goToSignup();
         @endif
+
 
         $(document).ready(function() {
             checkWrapBtnText();

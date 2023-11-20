@@ -1,7 +1,7 @@
 <span>
 
 <input type="checkbox" id="addmodal" class="modal-checkbox">
-<label for="addmodal" class="btn btn-add"><i class="fa-solid fa-plus"></i> <span>Nova Categoria</span></label>
+<label for="addmodal" class="btn btn-add"><p><i class="fa-solid fa-plus"></i> <span>Nova Categoria</span></p></label>
 
 <label for="addmodal" class="modal-background"></label>
 
@@ -29,7 +29,7 @@
 
         <div>
             <label>Descrição:</label>
-            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3" required>{{ old('descricao') }}</textarea>
+            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3">{{ old('descricao') }}</textarea>
             <p class="error-msg">{{ $errors->first('descricao') ? $errors->first('descricao') : "" }}</p>
         </div>
 

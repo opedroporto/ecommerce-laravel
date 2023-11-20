@@ -1,7 +1,7 @@
 <span>
 
 <input type="checkbox" id="addmodal" class="modal-checkbox">
-<label for="addmodal" class="btn btn-add"><i class="fa-solid fa-plus"></i> <span>Novo usuário</span></label>
+<label for="addmodal" class="btn btn-add"><p><i class="fa-solid fa-plus"></i> <span>Novo usuário</span></p></label>
 
 <label for="addmodal" class="modal-background"></label>
 

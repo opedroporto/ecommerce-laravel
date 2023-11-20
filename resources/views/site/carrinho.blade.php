@@ -12,7 +12,7 @@
 
 <div id="title-wrapper">
     
-    <a id="goback-btn" href="{{ route("site.index") }}"><i class="fa-solid fa-arrow-left"></i> Produtos</a>
+    <a id="goback-btn" href="{{ route("site.index") }}"><i class="fa-solid fa-arrow-left"></i></a>
 
     <h1 id="title">Carrinho ({{ count($items) }} {{ count($items) == 1 ? 'item' : 'itens' }}):</h1>
 </div>
@@ -34,8 +34,10 @@
 
                     </a>
                     <div class="row-info">
-                        <p>{{ $item['nome'] }}</p>
-                        <p class="preço-info secondary-info">Preço: R$ {{ number_format($item['valor'], 2, ",", ".") }}</p>
+                        <div class="top-row-info">
+                            <p>{{ $item['nome'] }}</p>
+                            <p class="preço-info secondary-info">Preço: R$ {{ number_format($item['valor'], 2, ",", ".") }}</p>
+                        </div>
                         <p class="quantidade-info">Quantidade: {{ $item['quantidade'] }}</p>
                         @if ($item['tipo'] != "colecao")
                         <p class="quantidade-input-p"> Quantidade: <input class="quantidade-input" type="number" min="0" value="{{ $item['quantidade'] }}"></p>
@@ -85,6 +87,44 @@
 @endsection
 
 @push("scripts")
+
+
+<script>
+    function incrementValue(e) {
+    e.preventDefault();
+    var fieldName = $(e.target).data('field');
+    var parent = $(e.target).closest('div');
+    var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+    if (!isNaN(currentVal)) {
+        parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+    } else {
+        parent.find('input[name=' + fieldName + ']').val(0);
+    }
+    }
+
+    function decrementValue(e) {
+    e.preventDefault();
+    var fieldName = $(e.target).data('field');
+    var parent = $(e.target).closest('div');
+    var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+    if (!isNaN(currentVal) && currentVal > 0) {
+        parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+    } else {
+        parent.find('input[name=' + fieldName + ']').val(0);
+    }
+    }
+
+    $('.input-group').on('click', '.btn-plus', function(e) {
+        incrementValue(e);
+    });
+
+    $('.input-group').on('click', '.btn-minus', function(e) {
+        decrementValue(e);
+    });
+
+</script>
 
 <script>
 

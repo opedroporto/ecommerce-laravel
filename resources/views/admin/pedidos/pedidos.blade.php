@@ -14,7 +14,7 @@
 		<div class="table-title">
 			<div class="row">
 				<div class="row-left">
-					<h2>Painel de <b>Pedidos</b></h2>
+					<h2><i class="fa-solid fa-cart-shopping"></i>  Painel de <b>Pedidos</b></h2>
 					<div class="search-div">
 						<input class="search-input" type="text" placeholder="Pesquise por pedidos" value="{{ request()->get('search') }}">
 						<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -26,6 +26,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="table-scroll">
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -39,8 +40,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($pedidos as $pedido)	
-					<tr class="tr-pedido tr-{{ $pedido->pago ? "pago" : "pendente" }}">
+				@foreach ($pedidos as $pedido)
+				@php
+					//$status_class = "pedido-" . explode(' ', trim(strtolower(translateStatus(json_decode($pedido->session_data)->status))))[0]
+					$status_class = "pedido-" . explode(' ', trim(strtolower(translateStatus($pedido->status))))[0]
+				@endphp
+					<tr class="tr-pedido tr-{{ $status_class }}">
 						<td>
 							<span>
 								<input type="checkbox" id="checkbox{{ $pedido->id }}" class="row-checkbox" name="options[]" value="{{ $pedido->id }}">
@@ -48,8 +53,9 @@
 							</span>
 						</td>
 						<td>{{ $pedido->id }}</td>
-						<td>R$ {{ number_format($pedido->valor) }}</td>
-						<td>{{ json_decode($pedido->session_data)->status }}</td>
+						<td>R$ {{ number_format($pedido->valor, 2, ",", ".") }}</td>
+						{{-- <td>{{ translateStatus(json_decode($pedido->session_data)->status) }}</td> --}}
+						<td>{{ translateStatus($pedido->status) }}</td>
 						<!-- <td>{{ $pedido->pago ? "Pago" : "Pagamento pendente" }}</td> -->
 						<td>{{ $pedido->entrega ? "Entrega" : "Retirada" }}</td>
 						{{-- <td>{{ format_endereco($endereco) }}</td> --}}
@@ -67,6 +73,7 @@
 				@endforeach
 			</tbody>
 		</table>
+		</div>
 		<div class="clearfix">
 			{{ $pedidos->links("custom.paginator") }}
 		</div>

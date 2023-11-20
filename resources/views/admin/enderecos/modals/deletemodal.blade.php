@@ -13,7 +13,7 @@
     <form id="modal-popup-form" action="{{ route("admin.enderecos.delete") }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" type="text" value="{{ $id }}" name="id">
-        <h1 id="modal-title">Deletar o usuário #{{ $id }} <br> permanentemente?</h1>
+        <h1 id="modal-title">Deletar o endereço #{{ $id }} <br> permanentemente?</h1>
         {{-- @if ($errors->any())
             <div class="error-msg">
                 <ul>

@@ -16,7 +16,7 @@
     </div>
     <form id="modal-popup-form" action="{{ route("admin.colecoes.edit") }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <h1 id="modal-title">Editar Coleção #{{ $id }}</h1>
+        <h1 id="modal-title">Editar Decoração #{{ $id }}</h1>
         <div>
             <p id="refresh{{ $id }}" class="refresh-btn"><i class="fa-solid fa-clock-rotate-left"></i> Informações originais</p>
         </div>
@@ -39,7 +39,7 @@
 
         <div>
             <label>Descrição:</label>
-            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3" required>{{ $item->descricao }}</textarea>
+            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3">{{ $item->descricao }}</textarea>
             {{-- <input class="{{ ($errors->first('descricao') ? "input-error" : "") }}" type="text" name="descricao" value="{{ old('descricao') }}" required> --}}
             <p class="error-msg">{{ $errors->first('descricao') ? $errors->first('descricao') : "" }}</p>
         </div>
@@ -112,7 +112,7 @@
         </div>
 
         <div id="modal-bottom">
-            <button class="modal-btn modal-main-btn" type="submit">Editar coleção</button>
+            <button class="modal-btn modal-main-btn" type="submit">Editar decoração</button>
         </div>
     </form>
 </div>

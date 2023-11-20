@@ -27,7 +27,11 @@ function mask($val, $mask)
 }
 
 function format_endereco($endereco) {
-    $end_complemento = $endereco->complemento ? ", " . $endereco->complemento : "";
+    if (isset($endereco->complemento)) {
+        $end_complemento = ", " . $endereco->complemento;
+    } else {
+        $end_complemento = "";
+    }
     $end_cep = format_cep($endereco->cep);
     return  "Rua {$endereco->rua}{$end_complemento}, {$endereco->bairro}, {$endereco->cidade}, {$endereco->uf}, {$end_cep}";
 }
@@ -59,6 +63,10 @@ function getShippingTax($data) {
         $distance_km = $distance / 1000;
         $shipping_tax = $distance_km * 5;
 
+        if ($shipping_tax > 25) {
+            $shipping_tax = 25;
+        }
+
         // return $shipping_tax;
         session()->put("shipping_tax" . $data['secret_token'], $shipping_tax);
         session()->save();
@@ -66,8 +74,8 @@ function getShippingTax($data) {
 
         // return "R$ " . number_format($shipping_tax, 2, ",", ".");
     } catch (\Exception $e) {
-        // default fallback shipping tax
-        $shipping_tax = 50;
+        // default fallback for shipping tax
+        $shipping_tax = 25;
 
         // return $shipping_tax;
         session()->put("shipping_tax" . $data['secret_token'], $shipping_tax);
@@ -92,10 +100,10 @@ function getShippingDate($data) {
     $date = Carbon::now()->addDays(7)->format("Y-m-d");
     return $date;
 
-    session()->put("shipping_date" . $data['secret_token'], $date);
+    session()->put("min_shipping_date" . $data['secret_token'], $date);
     session()->save();
 
-    return session()->get("shipping_date" . $data['secret_token']);
+    return session()->get("min_shipping_date" . $data['secret_token']);
     // return $date;
 }
 
@@ -128,4 +136,14 @@ function translateStatus($status) {
             return "Indefinido";
             break;
     }
+}
+
+function getWhatsappLink($number) {
+    $number = preg_replace("/[^0-9]/", '', $number);
+    return "https://wa.me/+55" . $number;
+}
+
+function formatDatetime($datetime) {
+    // $datetime->setTimezone(new DateTimeZone('America/Sao_Paulo'));
+    return date('d/m/Y à\s H:i', strtotime($datetime));
 }

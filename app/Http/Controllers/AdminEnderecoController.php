@@ -16,7 +16,7 @@ class AdminEnderecoController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $enderecos = Endereco::with("usuario")->where("nome", "LIKE", "%" . $request->search . "%")->paginate(5)->withQueryString();
+            $enderecos = Endereco::with("usuario")->where("rua", "LIKE", "%" . $request->search . "%")->paginate(5)->withQueryString();
         } else {
             $enderecos = Endereco::with("usuario")->paginate(5);
         }

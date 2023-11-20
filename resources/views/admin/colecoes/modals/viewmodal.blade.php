@@ -10,7 +10,7 @@
     </div>
     <form id="modal-popup-form" action="{{ route("admin.produtos.add") }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <h1 id="modal-title">Visualizar produto</h1>
+        <h1 id="modal-title">Visualizar decoração</h1>
         {{-- @if ($errors->any())
             <div class="error-msg">
                 <ul>

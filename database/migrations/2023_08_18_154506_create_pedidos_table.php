@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->float("valor", 8, 2);
             $table->timestamp("data");
+            $table->timestamp("data_fim");
             $table->boolean("entrega")->default(false);
             $table->boolean("retirada")->default(false);
             $table->float("taxa_entrega", 8, 2)->nullable();
@@ -27,6 +28,8 @@ return new class extends Migration
             $table->longText("session_id")->nullable();
             $table->longText("uri_pagamento")->nullable();
 
+            $table->text("gateway")->nullable();
+            $table->text("status");
             $table->boolean("pago")->default(false);
 
             $table->unsignedBigInteger("id_forma_de_pagamento");

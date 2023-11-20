@@ -2,7 +2,7 @@
 
 <input type="checkbox" id="deletemanymodal" class="modal-checkbox">
 {{-- <label for="modal" class="btn btn-add"><i class="fa-solid fa-plus"></i> <span>Novo produto</span></label> --}}
-<label for="deletemanymodal" class="btn btn-delete"><i class="fa-solid fa-trash"></i> <span>Deletar</span></label>
+<label for="deletemanymodal" class="btn btn-delete"><p><i class="fa-solid fa-trash"></i> <span>Deletar</span></p></label>
 
 <label for="deletemanymodal" class="modal-background"></label>
 
@@ -14,7 +14,7 @@
         @csrf
         <div id="ids">
         </div>
-        <h1 id="modal-title">Deletar todos os produtos selecionados <br> permanentemente?</h1>
+        <h1 id="modal-title">Deletar todas as categorias selecionados <br> permanentemente?</h1>
         {{-- @if ($errors->any())
             <div class="error-msg">
                 <ul>

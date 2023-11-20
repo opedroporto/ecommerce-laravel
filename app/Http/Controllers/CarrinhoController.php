@@ -29,14 +29,27 @@ class CarrinhoController extends Controller
     }
 
     public function add(Request $request) {
+
+        // assert quantidade >= 1
+        if (intval($request->quantidade) < 1) {
+            return redirect()->back()->withErrors(["msg" => "A quantidade deve ser escolhida."]);
+        }
+
         // colecao
         if (isset($request->type) && $request->type == "colecao") {
+
+            // CarrinhoCompras::getItem()
+            
             $colecao = Colecao::whereId($request->id)->first();
+
+            if ($request->quantidade > $colecao->quantidade ) {
+                return redirect()->back()->withErrors(["msg" => "Compra indisponível no momento. Tente novamente mais tarde."]);
+            }
             
             $item_dados = [
                 "tipo" => "colecao",
                 "nome" => $colecao->nome,
-                "quantidade" => 1,
+                "quantidade" => intval($request->quantidade),
                 "id_produto" => $colecao->id,
                 "produto" => $colecao
             ];
@@ -65,6 +78,10 @@ class CarrinhoController extends Controller
         // produto
         } else {
             $produto = Produto::find($request->id);
+
+            if ($request->quantidade > $produto->quantidade ) {
+                return redirect()->back()->withErrors(["msg" => "Compra indisponível no momento. Tente novamente mais tarde."]);
+            }
 
             $item_dados = [
                 "tipo" => "produto",

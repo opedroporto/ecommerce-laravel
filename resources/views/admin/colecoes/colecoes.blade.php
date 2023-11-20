@@ -14,9 +14,9 @@
 		<div class="table-title">
 			<div class="row">
 				<div class="row-left">
-					<h2>Painel de <b>Coleções</b></h2>
+					<h2><i class="fa-solid fa-boxes-stacked"></i> Painel de <b>Decorações</b></h2>
 					<div class="search-div">
-						<input class="search-input" type="text" placeholder="Pesquise por coleções" value="{{ request()->get('search') }}">
+						<input class="search-input" type="text" placeholder="Pesquise por decorações" value="{{ request()->get('search') }}">
 						<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
 					</div>
 				</div>
@@ -26,43 +26,45 @@
 				</div>
 			</div>
 		</div>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th></th>
-					<th>ID</th>
-					<th>Imagem</th>
-					<th>Nome</th>
-					<th>Preço</th>
-					<th>Quantidade</th>
-					{{-- <th>Categoria</th> --}}
-					<th>Opções</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach ($colecoes as $colecao)
+		<div class="table-scroll">
+			<table class="table table-striped table-hover">
+				<thead>
 					<tr>
-						<td>
-							<span>
-								<input type="checkbox" id="checkbox{{ $colecao->id }}" class="row-checkbox" name="options[]" value="{{ $colecao->id }}">
-								<label for="checkbox{{ $colecao->id }}"></label>
-							</span>
-						</td>
-						<td>{{ $colecao->id }}</td>
-						<td><img class="td-img" src="{{ $colecao->img }}" alt="Imagem de {{ $colecao->nome }}"></td>
-						<td>{{ Str::limit($colecao->nome, 40) }}</td>
-						<td>R$ {{ number_format($colecao->valor, 2, ",", ".") }}</td>
-						<td>{{ $colecao->quantidade }}</td>
-						{{-- <td>{{ Str::limit($produto->categoria->nome, 20) }}</td> --}}
-						<td class="options-td">
-							@include("admin.colecoes.modals.viewmodal", ["id" => $colecao->id, "item" => $colecao])
-							@include("admin.colecoes.modals.editmodal", ["id" => $colecao->id, "item" => $colecao])
-							@include("admin.colecoes.modals.deletemodal", ["id" => $colecao->id])
-						</td>
+						<th></th>
+						<th>ID</th>
+						<th>Imagem</th>
+						<th>Nome</th>
+						<th>Preço</th>
+						<th>Quantidade</th>
+						{{-- <th>Categoria</th> --}}
+						<th>Opções</th>
 					</tr>
-				@endforeach
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					@foreach ($colecoes as $colecao)
+						<tr>
+							<td>
+								<span>
+									<input type="checkbox" id="checkbox{{ $colecao->id }}" class="row-checkbox" name="options[]" value="{{ $colecao->id }}">
+									<label for="checkbox{{ $colecao->id }}"></label>
+								</span>
+							</td>
+							<td>{{ $colecao->id }}</td>
+							<td><img class="td-img" src="{{ $colecao->img }}" alt="Imagem de {{ $colecao->nome }}"></td>
+							<td>{{ Str::limit($colecao->nome, 30) }}</td>
+							<td>R$ {{ number_format($colecao->valor, 2, ",", ".") }}</td>
+							<td>{{ $colecao->quantidade }}</td>
+							{{-- <td>{{ Str::limit($produto->categoria->nome, 20) }}</td> --}}
+							<td class="options-td">
+								@include("admin.colecoes.modals.viewmodal", ["id" => $colecao->id, "item" => $colecao])
+								@include("admin.colecoes.modals.editmodal", ["id" => $colecao->id, "item" => $colecao])
+								@include("admin.colecoes.modals.deletemodal", ["id" => $colecao->id])
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
 		<div class="clearfix">
 			{{ $colecoes->links("custom.paginator") }}
 		</div>

@@ -75,7 +75,7 @@
         <div>
             <label>Categoria:</label><br>
             <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3" required disabled>{{ $item->categoria->nome }}</textarea>
-            <p class="modal-bottom-msg"><a id="signin-btn">Ver Categoria</a></p>
+            {{-- <p class="modal-bottom-msg"><a id="signin-btn">Ver Categoria</a></p> --}}
             <p class="error-msg">{{ $errors->first('categoria') ? $errors->first('categoria') : "" }}</p>
         </div>
 

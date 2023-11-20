@@ -31,7 +31,11 @@ class FormaDePagamentoSeeder extends Seeder
         // ]);
         DB::table("formas_de_pagamento")->insert([
             "alias" => "c",
-            "nome" => "Cartão de Crédito/Débito"
+            "nome" => "Cartão de Crédito"
+        ]);
+        DB::table("formas_de_pagamento")->insert([
+            "alias" => "pix",
+            "nome" => "Pix"
         ]);
     }
 }

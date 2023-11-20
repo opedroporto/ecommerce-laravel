@@ -69,7 +69,7 @@ class LoginController extends Controller
             "email" => $data["email"],
             "senha" => bcrypt($data["senha"]),
             "remember_token" => Str::random(10),
-            "cpf" => $data["sobrenome"],
+            "cpf" => $data["cpf"],
             "tel" => $data["telefone"],
             "dtnasc" => $data["datanasc"]
         ];

@@ -47,9 +47,9 @@ class StorePedidoRequest extends FormRequest
 
                 // date
                 if (!empty($this->get("date"))) {
-                    $rules['date'] = ["required", "regex:/^" . session()->get("shipping_date") . "$/"]; // date rule
+                    $rules['date'] = ["required", "after_or_equal:" . session()->get("min_shipping_date")]; // date 
                 }
-                $this->date = session()->get("shipping_date");
+                $this->date = session()->get("min_shipping_date");
 
             // withdrawal
             } else if ($this->get("forma") == "retirada") {
@@ -70,6 +70,11 @@ class StorePedidoRequest extends FormRequest
                 // $this->replace(['pagamento' => $id_forma_de_pagamento]);
             }
         }
+
+        $rules['date2'] = ["required", "after:" . $this->date]; // date2 rule
+
+        $rules['time'] = ["required"]; // time rule
+        $rules['time2'] = ["required"]; // time2 rule
 
         return $rules;
     }

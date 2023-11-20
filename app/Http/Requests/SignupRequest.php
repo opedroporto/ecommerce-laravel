@@ -36,7 +36,7 @@ class SignupRequest extends FormRequest
             "end_num" => "required|digits_between:1,5",
             "end_bairro" => "required|min:1|max:255",
             "end_cidade" => "required|min:1|max:255",
-            "end_uf" => ["required", "regex:/^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO|BR)/$"],
+            "end_uf" => ["required", "regex:/^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO|BR)$/"],
             "end_complemento" => "nullable|min:1|max:255"
         ];
 

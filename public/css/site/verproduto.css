@@ -1,13 +1,14 @@
-.container {
+.first-container {
     /* border: 1px solid black; */
     width: 100vw;
-    height: calc(90vh - var(--nav-height));
+    /* height: calc(90vh - var(--nav-height)); */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     position: relative;
+    margin-top: 2rem;
 }
 
-.container > * {
+.first-container > * {
     margin: 1rem;
 }
 
@@ -29,13 +30,131 @@
     object-fit: contain;
 }
 
+.right-group-text {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.secondary-text {
+    margin-bottom: 1rem;
+}
+
+.item-title {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
+.item-category {
+    color: #ccc;
+}
+
+.items-list p {
+    color: #ccc;
+}
+
+.form-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numinput {
+    text-align: center;
+}
+
+.form-row {
+    margin-top: 1.5rem;
+}
+
+.input-group > * {
+    height: 2.5rem;
+    width: 100%;
+}
+
+.col-group {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 100%; */
+}
+
+.btn-minus, .btn-plus {
+    text-align: center;
+    width: 2.5rem;
+    cursor: pointer;
+}
+
+.btn-minus {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.btn-plus {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
 #comprar-btn {
+    width: 100%;
+    height: 2.5rem;
+    color: white;
     background-color: orange;
-    padding: 1rem;
-    font-size: large;
+    /* padding: 1rem; */
+    font-size: medium;
     border-radius: 0.25rem;
+    margin: 1rem 0;
+    text-align: center;
 }
 
 #comprar-btn:hover {
     cursor: pointer;
+}
+
+.second-container {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border-top: 1px solid #ccc;
+    padding-top: 3rem;
+}
+
+.item-description-title {
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+.item-description {
+    text-align: justify;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    color: #ccc;
+}
+
+.item-price-group {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.item-price {
+    font-size: 2.5rem;
+}
+
+.invalid-item-price {
+    text-decoration: line-through;
+    color: #ccc;
+}
+
+#discount-badge {
+    background-color: var(--light-primary-color);
+    border-radius: .25rem;
+    margin: 0;
+    margin-left: .5rem;
+}
+
+#discount-badge span {
+    margin: 0.2rem;
+    padding: 0;
+    font-size: 1.5rem;
 }

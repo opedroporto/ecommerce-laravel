@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -117,6 +118,11 @@ class AdminUsuarioController extends Controller
         $usuario_data['dtnasc'] = $usuario_data['datanasc'];
         unset($usuario_data['datanasc']);
 
+        // 1 admin
+        if ($usuario_data['id'] == 1) {
+            $usuario_data['role'] = 1;
+        }
+
         Usuario::whereId($usuario_data['id'])->update($usuario_data);
 
         return redirect()->route("admin.usuarios.index");
@@ -127,14 +133,14 @@ class AdminUsuarioController extends Controller
      */
     public function destroy(Request $request)
     {
-        Usuario::whereId($request->id)->delete();
+        Usuario::whereNot("id", 1)->whereId($request->id)->delete();
 
         return redirect()->route("admin.usuarios.index");
     }
 
     public function destroymany(Request $request)
     {
-        Usuario::whereIn("id", $request->ids)->delete();
+        Usuario::whereNot("id", 1)->whereIn("id", $request->ids)->delete();
 
         return redirect()->route("admin.usuarios.index");
     }

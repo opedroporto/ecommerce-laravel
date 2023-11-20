@@ -55,11 +55,13 @@
 }
 
 .stage-innercontent {
+    min-width: 30rem;
     padding: 0 1rem 1rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: .75rem;
 }
 
 .stage-secondary-innercontent {
@@ -110,7 +112,7 @@ section:not(.stage-active) .stage-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: .75rem;
+    /* margin-top: .75rem; */
 }
 
 #tax-text {
@@ -175,4 +177,27 @@ section:not(.stage-active) .stage-content {
 
 #finalizar-btn {
     cursor: pointer;
+}
+
+#timepicker-inline-24 {
+    display: inline-block;
+    /* width: auto; */
+}
+
+.stage-multipleinnercontent > div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.stage-multipleinnercontent > div > * {
+    display: inline-block;
+    width: 100%;
+}
+
+@media (max-width: 650px) {
+    .stage-innercontent {
+        min-width: unset;
+    }
 }

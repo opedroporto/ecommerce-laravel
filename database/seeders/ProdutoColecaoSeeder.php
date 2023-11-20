@@ -22,6 +22,6 @@ class ProdutoColecaoSeeder extends Seeder
         //     "carrinho"
         // )->create();
 
-        ProdutoColecao::factory(20)->create();
+        // ProdutoColecao::factory(20)->create();
     }
 }

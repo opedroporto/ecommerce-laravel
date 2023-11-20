@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +22,23 @@ Route::group([
     "prefix" => "",
     "as" => "site."
 ], function() {
+    // Route::get("/test", [Controllers\PaymentController::class, "test"])->name("test");
+    // Route::get("/setwebhook", [Controllers\PaymentController::class, "setWebhook"])->name("setwebhook");
+    // Route::get("/seewebhook", [Controllers\PaymentController::class, "seeWebhook"])->name("seewebhook");
+    // Route::get("/seecharges", [Controllers\PaymentController::class, "seeCharges"])->name("seechages");
+
     // index
     Route::get("/", [Controllers\SiteController::class, "index"])->name("index");
+
+    // sobre
+    Route::get("/sobre", [Controllers\SiteController::class, "sobre"])->name("sobre");
+
+    // perfil
+    Route::get("/perfil", [Controllers\SiteController::class, "perfil"])->name("perfil")->middleware("authuser");
+    Route::post("/editarusuario", [Controllers\UsuarioController::class, "update"])->name("editusuario")->middleware("authuser");
+    Route::post("/addendereco", [Controllers\EnderecoController::class, "store"])->name("addendereco")->middleware("authuser");
+    Route::post("/editendereco", [Controllers\EnderecoController::class, "update"])->name("editendereco")->middleware("authuser");
+    Route::post("/deleteendereco", [Controllers\EnderecoController::class, "destroy"])->name("deleteendereco")->middleware("authuser");
 
     // produto
     Route::get("/produto/{id}/{slug}", [Controllers\ProdutoController::class, "show"])->name("verproduto");
@@ -37,21 +54,36 @@ Route::group([
 
     Route::get("/finalizarcompra", [Controllers\CarrinhoController::class, "proceedToCheckout"])->name("finalizarcompra")->middleware("authuser");
     
-    Route::post("/addpedido", [Controllers\PedidoController::class, "store"])->name("addpedido")->middleware("authuser");
     Route::get("/pedidos", [Controllers\PedidoController::class, "index"])->name("getpedidos")->middleware("authuser");
-    Route::get("/finalizarpedido", [Controllers\StripeController::class, "checkout"])->name("checkout")->middleware("authuser");
+    Route::post("/addpedido", [Controllers\PedidoController::class, "store"])->name("addpedido")->middleware("authuser");
+    Route::get("/finalizarpedido", [Controllers\PaymentController::class, "checkout"])->name("checkout")->middleware("authuser");
     
-    Route::get("/sucesso", [Controllers\StripeController::class, "success"])->name("success");
+    Route::get("/sucesso", [Controllers\PaymentController::class, "success"])->name("success");
 });
 
 // Login
 Route::group([
     "prefix" => "",
-    "as" => "login."
+    "as" => "login.",
 ], function() {
-    Route::post("/login", [Controllers\LoginController::class, "login"])->name("login"); 
+    Route::post("/login", [Controllers\LoginController::class, "login"])->middleware("guest")->name("login"); 
     Route::get("/logout", [Controllers\LoginController::class, "logout"])->name("logout"); 
-    Route::post("/cadastro", [Controllers\LoginController::class, "signup"])->name("signup"); 
+    Route::post("/cadastro", [Controllers\LoginController::class, "signup"])->middleware("guest")->name("signup"); 
+
+    // PASSWORD
+
+    // GET: reset 1
+    Route::get('/resetarsenha', [Controllers\PasswordController::class, "reset1"])->middleware("guest")->name('resetarsenha');
+
+    // POST: reset 1
+    Route::post('/resetarsenha', [Controllers\PasswordController::class, "reset2"])->middleware("guest")->name('resetarsenha2');
+
+    // GET: reset 2
+    Route::get('/resetarsenha/{token}', [Controllers\PasswordController::class, "reset3"])->middleware("guest")->name('resetarsenha3');
+
+    // POST: reset 2
+    Route::post('/modificarsenha', [Controllers\PasswordController::class, "reset4"])->middleware("guest")->name('resetarsenha4');
+
 });
 
 // API
@@ -69,14 +101,17 @@ Route::group([
     "prefix" => "webhook",
     "as" => "webhook."
 ], function() {
-    Route::match(["get", "post"], "/", [Controllers\StripeController::class, "webhook"])->name("receive");
+    // Route::get("/", [Controllers\PaymentController::class, "webhookResponse"])->name("webhookresponse");
+    Route::post("/", [Controllers\PaymentController::class, "webhookStripe"])->name("receiveStripe"); // stripe
+    Route::post("/pix", [Controllers\PaymentController::class, "webhookGn"])->name("receiveGn"); // gn
 });
 
 // Admin
 Route::group([
     "prefix" => "controle",
     "as" => "admin.",
-    "middleware" => "authadmin"
+    "middleware" => "authadmin",
+    // "domain" => 'controle.' . env('APP_URL')
 ], function() {
     // index
     Route::get("/", [Controllers\AdminController::class, "index"])->name("index");

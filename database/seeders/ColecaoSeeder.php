@@ -14,6 +14,6 @@ class ColecaoSeeder extends Seeder
      */
     public function run(): void
     {
-        Colecao::factory(5)->create();
+        // Colecao::factory(5)->create();
     }
 }

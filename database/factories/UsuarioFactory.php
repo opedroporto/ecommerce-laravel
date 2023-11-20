@@ -31,7 +31,7 @@ class UsuarioFactory extends Factory
             "senha" => bcrypt("12345678"),
             "remember_token" => Str::random(10),
             // "cpf" => fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "." . fake()->randomNumber(3) . "-" . fake()->randomNumber(2),
-            "cpf" => fake()->numerify("###-###-###.##"),
+            "cpf" => fake()->numerify("###.###.###-##"),
             // "tel" => "(" . fake()->randomNumber(2) . ")" .  " " . fake()->randomNumber(5) . "-" . fake()->randomNumber(4),
             "tel" => fake()->numerify("(##) #####-####"),
             "dtnasc" => fake()->date()

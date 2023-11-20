@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Notifications\PasswordReset;
+
 class Usuario extends Authenticatable
 {
     use CrudTrait;
@@ -64,5 +66,11 @@ class Usuario extends Authenticatable
 
     public function carrinho() {
         return $this->hasOne("App\Models\Carrinho", "id_usuario");
+    }
+
+    // trait CanResetPassword;
+
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new PasswordReset($token));
     }
 }

@@ -35,7 +35,7 @@
 
         <div>
             <label>Descrição:</label>
-            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3" required>{{ $item->descricao }}</textarea>
+            <textarea class="{{ ($errors->first('descricao') ? "input-error" : "") }}" name="descricao" rows="3">{{ $item->descricao }}</textarea>
             {{-- <input class="{{ ($errors->first('descricao') ? "input-error" : "") }}" type="text" name="descricao" value="{{ old('descricao') }}" required> --}}
             <p class="error-msg">{{ $errors->first('descricao') ? $errors->first('descricao') : "" }}</p>
         </div>

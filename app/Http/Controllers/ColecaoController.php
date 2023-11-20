@@ -55,21 +55,23 @@ class ColecaoController extends Controller
         }
 
         // all products value
-        $colecao_valor = 0;
+        $colecao_value = 0;
         foreach($produtos as $produto) {
-            $colecao_valor += $produto[0]->valor;
+            $colecao_value += $produto[0]->valor;
         }
 
         // collection default value
         if (!isset($colecao['valor'])) {
-            $colecao['valor'] = $colecao_valor;
+            $colecao['valor'] = $colecao_value;
         }
         $colecao['produtos'] = $produtos;
 
         // discount value
-        if ($colecao['valor'] < $colecao_valor) {
-            $discount_value = $colecao_valor - $colecao['valor'];
-            return view("site.vercolecao", compact("colecao"))->with(compact("discount_value"));
+        if ($colecao['valor'] < $colecao_value) {
+            $invalid_price = $colecao_value;
+            $discount_percentage = 100 - number_format($colecao['valor'] * 100 / $invalid_price, 0) . "% OFF";
+
+            return view("site.vercolecao", compact("colecao"))->with(compact("invalid_price", "discount_percentage"));
         }
         return view("site.vercolecao", compact("colecao"));
 

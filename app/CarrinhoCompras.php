@@ -14,6 +14,14 @@ class CarrinhoCompras {
     }
 
     public static function setItem(array $item_dados) {
+
+        // $item = self::getItem($item_dados['id']);
+        // if ($item['tipo'] == "colecao" && $item_dados['quantidade'] > 1) {
+        //     return;
+        // } else if ($item['tipo'] == "produto") {
+        //     //
+        // }
+        
         
         // user
         if (auth()->user()) {
@@ -30,6 +38,8 @@ class CarrinhoCompras {
                 } else {
                     $existing_item['produto'] = Produto::find($existing_item['id_produto'])->first();
                 }
+                
+                $new_quantidade = min($new_quantidade, $existing_item['produto']['quantidade']); // STOCK CHECK
                 
                 self::updateItem($id, [
                     'quantidade' => $new_quantidade,
@@ -66,6 +76,8 @@ class CarrinhoCompras {
                         $existing_item['produto'] = Produto::find($existing_item['id_produto'])->first();
                     }
 
+                    $new_quantidade = min($new_quantidade, $existing_item['produto']['quantidade']); // STOCK CHECK
+                    // dd($new_quantidade);
                     self::updateItem($existing_item['id'], [
                         'quantidade' => $new_quantidade,
                         'valor' => $new_quantidade * $existing_item['produto']['valor']
@@ -145,6 +157,12 @@ class CarrinhoCompras {
     }
 
     public static function updateItem($id, array $new_dados) {
+
+        $item = self::getItem($id);
+        $new_dados['quantidade'] = min($new_dados['quantidade'], $item['produto']['quantidade']); // STOCK CHECK
+        $new_dados['valor'] = $new_dados['quantidade'] * $item['produto']['valor'];
+
+        
         // user
         if (auth()->user()) {
             Item::whereId($id)->update($new_dados);
@@ -235,7 +253,7 @@ class CarrinhoCompras {
     }
 
     public static function getAdditional() {
-        return 50.00;
+        return 150.00;
     }
 }
 

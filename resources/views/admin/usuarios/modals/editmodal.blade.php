@@ -32,14 +32,12 @@
             <select class="{{ ($errors->first('cargo') ? "input-error" : "") }}" name="cargo" required>
                 @if ($item->role == 0)
                     <option value="0" selected="selected">Usuário</option>
-                @else
-                    <option value="0">Administrador</option>
-                @endif
-
-                @if ($item->role == 1)
-                    <option value="1"selected="selected">Administrador</option>
-                @else
                     <option value="1">Administrador</option>
+                @elseif ($item->role == 1)
+                    <option value="1"selected="selected">Administrador</option>
+                    @if($usuario->id != 1)
+                        <option value="0">Usuário</option>
+                    @endif
                 @endif
             </select>
             <p class="error-msg">{{ $errors->first('cargo') ? $errors->first('cargo') : "" }}</p>
@@ -82,7 +80,7 @@
         </div>
 
         <div id="modal-bottom">
-            <button class="modal-btn modal-main-btn" type="submit">Editar usuáiro</button>
+            <button class="modal-btn modal-main-btn" type="submit">Editar usuário</button>
         </div>
     </form>
 </div>

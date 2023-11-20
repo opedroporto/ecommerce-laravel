@@ -64,12 +64,44 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 	opacity: 0.6;
 }
 
+.options-td {
+    /* background-color: var(--dark-secondary-color); */
+}
+
 .view, .edit, .delete {
     cursor: pointer;
+}
+.view {
+    color: white;
+    background-color: rgb(170, 170, 170);
+    padding: .1rem;
+    border-radius: .25rem;
+}
+.edit {
+    color: white;
+    background-color: rgb(170, 170, 170);
+    padding: .1rem;
+    border-radius: .25rem;
+}
+.delete {
+    color: white;
+    background-color: rgb(170, 170, 170);
+    padding: .1rem;
+    border-radius: .25rem;
 }
 
 .refresh-btn {
     cursor: pointer;
+}
+
+.btn {
+    /* padding: .25rem; */
+    border-radius: .25rem;
+    /* width: 5rem; */
+}
+
+.btn > * {
+    text-align: center;
 }
 
 .btn-delete {
@@ -99,17 +131,15 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 }
 
 #modal-img, #modal-img2 {
-    width: 20rem;
+    /* width: 20rem; */
     object-fit: cover;
     object-position: right;
 }
 
 #modal-popup-box {
     height: auto;
-    background-color: #5e548e;
-    max-height: 95vh;
-    min-width: 30rem;
-    max-width: 80vw;
+    background-color: var(--light-primary-color);
+    max-height: 96dvh;
     padding: 1rem;
     overflow-y: auto;
     box-shadow: 0px 0px 50px 0px black;
@@ -153,8 +183,11 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
     width: 100%;
 }
 
-#modal-popup-form input:not([type="file"]):not([type="radio"]) {
+#modal-popup-form input, #modal-popup-form select, #modal-popup-form textarea {
     font-size: 1.25rem;
+}
+
+#modal-popup-form input:not([type="file"]):not([type="radio"]) {
     width: 100%;
     margin: .5rem 0 .5rem 0;
     padding: .25rem;
@@ -195,7 +228,6 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 
 
 #modal-popup-form select {
-    font-size: 1.25rem;
     width: 100%;
     margin: .5rem 0 .5rem 0;
     padding: .25rem;
@@ -206,7 +238,6 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 }
 
 #modal-popup-form textarea {
-    font-size: 1.25rem;
     width: 100%;
     margin: .5rem 0 .5rem 0;
     padding: .25rem;
@@ -512,6 +543,8 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 }
 
 .file-upload-image {
+    width: 100%;
+    object-fit: contain;
     max-height: 500px;
     padding: .5rem;
     /* max-height: 200px;
@@ -620,7 +653,7 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
 @media (max-width: 1280px) {
     #modal-img, #modal-img2 {
         width: 20rem;
-    }   
+    }
 }
 
 @media (max-width: 960px) {
@@ -645,4 +678,47 @@ input[type="checkbox"].modal-checkbox:checked ~ .modal-background {
     #modal-popup-box {
         max-width: 90vw;
     }
+}
+
+
+
+@media (min-width: 0) {
+    #modal-popup-form input, #modal-popup-form select, #modal-popup-form textarea {
+        font-size: 1rem;
+    }
+    #modal-popup-box {
+        min-width: unset;
+        max-width: unset;
+        width: 95%;
+    }
+}
+@media (min-width: 768px) {
+    #modal-popup-form input, #modal-popup-form select, #modal-popup-form textarea {
+        font-size: 1.15rem;
+    }
+    #modal-popup-box {
+        min-width: unset;
+        max-width: unset;
+        width: 80%;
+    }    
+}
+@media (min-width: 992px) {
+    #modal-popup-form input, #modal-popup-form select, #modal-popup-form textarea {
+        font-size: 1.25rem;
+    }
+    #modal-popup-box {
+        min-width: 30rem;
+        max-width: 80vw;
+        width: 70%;
+    }    
+}
+@media (min-width: 1200px) {
+    #modal-popup-form input, #modal-popup-form select, #modal-popup-form textarea {
+        font-size: 1.25rem;
+    }
+    #modal-popup-box {
+        min-width: 30rem;
+        max-width: 80vw;
+        width: unset;
+    }  
 }
