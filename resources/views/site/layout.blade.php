@@ -165,7 +165,7 @@
 		<footer class="footer">
 		<div class="footer__addr">
 			<p class="footer__title">
-				<img class="footer__logo" src="{{ asset("imgs/fran.jpeg") }}" />
+				<img class="footer__logo" src="{{ asset("imgs/fran.jpg") }}" />
 				Fran Decorações
 			</p>
 			{{-- <h2>Contato</h2> --}}
