@@ -568,10 +568,14 @@
 
         function checkDateRange() {
 
-            let date = $("#date").val().split("-");
-            let minDate = date[0] + "-" + date[1] + "-" + (parseInt(date[2]) + 1).toString();
+            let date = $("#date").val();
+            let newDate = new Date(date);
+            newDate.setHours(newDate.getHours() + 3);
+            newDate.setDate(newDate.getDate() + 1);
+            $("#date2").attr("min", newDate.toISOString().split('T', 1)[0]);
+            newDate.setDate(newDate.getDate() + 7).toLocaleString("en-US", { month: "short", timeZone: 'UTC' });
+            $("#date2").attr("max", newDate.toISOString().split('T', 1)[0]);
 
-            $("#date2").attr("min", minDate);
 
             if( (new Date($("#date").val()).getTime() >= new Date($("#date2").val()).getTime()))
             {
@@ -589,14 +593,19 @@
             }
         }
 
+        $("#date2").attr("min", new Date().toISOString().split("T")[0])
+        $("#date2").attr("max", new Date().toISOString().split("T")[0])
+
         $("#date").on("change", () => {
             checkDateRange();
             checkStage2();
         });
 
         $("#date2").on("change", () => {
-            checkDateRange();
-            checkStage2();
+            if (/^[1-9]{1}\d{3}-\d{2}-\d{2}$/.test($("#date2").val())) {
+                checkDateRange();
+                checkStage2();
+            }
         });
 
         $("#time").on("change", () => {

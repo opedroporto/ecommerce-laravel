@@ -180,15 +180,15 @@ class PedidoController extends Controller
                 $item['produto'] = Colecao::whereId($item['id_produto'])->first();
 
                 // reduce
-                // $new_quantidade = Colecao::whereId($item['id_produto'])->first()->quantidade - $item['produto']->quantidade;
-                // Colecao::whereId($item['id_produto'])->update(["quantidade" => $new_quantidade]);
+                $new_quantidade = Colecao::whereId($item['id_produto'])->first()->quantidade - $item['produto']->quantidade;
+                Colecao::whereId($item['id_produto'])->update(["quantidade" => $new_quantidade]);
 
             } elseif ($item['tipo'] == "produto") {
                 $item['produto'] = Produto::whereId($item['id_produto'])->first();
                 
                 //reduce
-                // $new_quantidade = Produto::whereId($item['id_produto'])->first()->quantidade - $item['produto']->quantidade;
-                // Produto::whereId($item['id_produto'])->update(["quantidade" => $new_quantidade]);
+                $new_quantidade = Produto::whereId($item['id_produto'])->first()->quantidade - $item['produto']->quantidade;
+                Produto::whereId($item['id_produto'])->update(["quantidade" => $new_quantidade]);
             }
             if (($item['produto']['quantidade'] - $item['quantidade']) < 0) {
                 // erro
